@@ -17,7 +17,6 @@ using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
 using ExileCore.Shared.Nodes;
 
-using Newtonsoft.Json;
 using SharpDX;
 
 using Map = ExileCore.PoEMemory.Elements.Map;

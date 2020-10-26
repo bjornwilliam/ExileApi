@@ -169,5 +169,150 @@ namespace ExileCore.PoEMemory.MemoryObjects
                 return stateListPres.Select(x => new Tuple<Quest, int>(TheGame.Files.Quests.GetByAddress(x.Item1), x.Item2)).ToList();
             }
         }
+
+        public Element AllStashes => StashElement?.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1);
+        // where the map stash is is likely related to its position in the stash tab list. Currently index 3
+        public Element MapStashOverviewElement => AllStashes?.GetChildAtIndex(3)?.GetChildAtIndex(0);
+
+        public Element MapStashTopTierBar => MapStashOverviewElement?.GetChildAtIndex(0);
+        public Element MapStashBottomTierBar => MapStashOverviewElement?.GetChildAtIndex(1);
+        public Element MapStashMapIconsBox => MapStashOverviewElement?.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
+
+        public Element MapStashMapIconsBoxVisibleTwoMapHeight => MapStashOverviewElement?.GetChildAtIndex(2);
+        public Element MapStashIconsBoxUpDownControls => MapStashOverviewElement?.GetChildAtIndex(4);
+
+        public Element MapDevice => GetChildAtIndex(55);
+        public Element MapDeviceButtonsAndReceptacles => MapDevice?.GetChildAtIndex(3);
+
+        public Element MapDeviceAcceptButton => MapDeviceButtonsAndReceptacles?.GetChildAtIndex(0);
+
+        public Element MapDeviceTopLeftReceptacle => MapDeviceButtonsAndReceptacles?.GetChildAtIndex(5);
+
+
+        public YouHaveDiedWindow YouHaveDiedWindow => GetObject<YouHaveDiedWindow>(IngameUIElementsStruct.YouHaveDiedWindow);
+        public Element VendorAcceptButton => SellWindow?.GetChildAtIndex(3)?.GetChildAtIndex(5);
+
+        public Element VendorPanel => GetChildAtIndex(21);
+        public Element VendorPanelOptions => VendorPanel?.GetChildAtIndex(6)?.GetChildAtIndex(0)?.GetChildAtIndex(2);
+        public Element VendorPanelSellOption
+        {
+            get
+            {
+                if (VendorPanelOptions?.Children != null)
+                {
+                    foreach (var optionElement in VendorPanelOptions.Children)
+                    {
+                        if (optionElement.Children != null)
+                        {
+                            foreach (var innerOptionElement in optionElement.Children)
+                            {
+                                if (innerOptionElement.Text?.ToLower().Contains("sell item") == true)
+                                {
+                                    return innerOptionElement;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+        public Element VendorPanelPurchaseOption
+        {
+            get
+            {
+                if (VendorPanelOptions?.Children != null)
+                {
+                    foreach (var optionElement in VendorPanelOptions.Children)
+                    {
+                        if (optionElement.Children != null)
+                        {
+                            foreach (var innerOptionElement in optionElement.Children)
+                            {
+                                if (innerOptionElement.Text?.ToLower().Contains("purchase item") == true)
+                                {
+                                    return innerOptionElement;
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
+        public Element WorldMapElement => WorldMap?.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1);
+        public Element WorldMapPartsAndEpiologueTopBar => WorldMap?.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(0);
+
+        public Element WorldMapActAndWaypoint => WorldMap?.GetChildAtIndex(2)?.GetChildAtIndex(0)?.GetChildAtIndex(1);
+
+
+        public Element WorldMapActAndWaypointElement0 => WorldMapActAndWaypoint?.GetChildAtIndex(0);
+        public Element WorldMapActAndWaypointElement1 => WorldMapActAndWaypoint?.GetChildAtIndex(1);
+        public Element WorldMapActAndWaypointElement2 => WorldMapActAndWaypoint?.GetChildAtIndex(2);
+
+        public Element WorldMapPart1Waypoints => WorldMapActAndWaypointElement0?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1);
+        public Element WorldMapAct1WapypointsElement => WorldMapPart1Waypoints?.GetChildAtIndex(0);
+
+        public Element WorldMapPart2Waypoints => WorldMapActAndWaypointElement1?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(1);
+        public Element WorldMapAct9WapypointsElement => WorldMapPart2Waypoints?.GetChildAtIndex(3)?.GetChildAtIndex(0)?.GetChildAtIndex(2)?.GetChildAtIndex(0);
+
+        public Element WorldMapBloodAquaductsWaypoint => WorldMapAct9WapypointsElement?.GetChildAtIndex(0);
+
+        public Element WorldMapAct6To10Rects => WorldMapActAndWaypointElement1?.GetChildAtIndex(0)?.GetChildAtIndex(1)?.GetChildAtIndex(0);
+
+        public Element WorldMapAct9Rect
+        {
+            get
+            {
+                if (WorldMapAct6To10Rects?.Children == null)
+                {
+                    return null;
+                }
+                foreach (var element in WorldMapAct6To10Rects.Children)
+                {
+                    if (element.Children != null && element.Children.Count > 0)
+                    {
+
+                        foreach (var child in element.Children)
+                        {
+                            if (child.Text.Contains("Act 9"))
+                            {
+                                return child;
+                            }
+                        }
+                    }
+                }
+                return null;
+
+            }
+        }
+
+
+        public Element WorldMapPart2
+        {
+            get
+            {
+                if (WorldMapPartsAndEpiologueTopBar?.Children == null)
+                {
+                    return null;
+                }
+                foreach (var element in WorldMapPartsAndEpiologueTopBar.Children)
+                {
+                    if (element.Children != null && element.Children.Count > 0)
+                    {
+                        foreach (var child in element.Children)
+                        {
+                            if (child.Text.Contains("Part 2"))
+                            {
+                                return child;
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+        }
+
     }
 }

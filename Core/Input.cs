@@ -157,7 +157,15 @@ namespace ExileCore
         {
             WinApi.mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
         }
+        public static void RightDown()
+        {
+            WinApi.mouse_event(MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0);
+        }
 
+        public static void RightUp()
+        {
+            WinApi.mouse_event(MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0);
+        }
         /*public static IEnumerator LeftClick()
         {
             yield return LeftClick(0, 0);

@@ -13,6 +13,7 @@ namespace ExileCore.PoEMemory.MemoryObjects
         private readonly CachedValue<IngameDataOffsets> _IngameData;
         private readonly CachedValue<AreaTemplate> _CurrentArea;
         private readonly CachedValue<WorldArea> _CurrentWorldArea;
+        private readonly CachedValue<TerrainDataObject> _CurrentTerrainDataObject;
         private readonly CachedValue<long> _EntitiesCount;
         private readonly CachedValue<Entity> _LocalPlayer;
         private readonly Dictionary<GameStat, int> _MapStats = new Dictionary<GameStat, int>();
@@ -27,6 +28,7 @@ namespace ExileCore.PoEMemory.MemoryObjects
             _CurrentWorldArea = new AreaCache<WorldArea>(() => TheGame.Files.WorldAreas.GetByAddress(CurrentArea.Address));
             var offset = Extensions.GetOffset<IngameDataOffsets>(nameof(IngameDataOffsets.EntitiesCount));
             _EntitiesCount = new FrameCache<long>(() => M.Read<long>(Address + offset));
+            _CurrentTerrainDataObject = new AreaCache<TerrainDataObject>(() => GetObject<TerrainDataObject>(Address + Extensions.GetOffset<IngameDataOffsets>(nameof(IngameDataOffsets.Terrain))));
         }
 
         public IngameDataOffsets DataStruct => _IngameData.Value;
@@ -41,7 +43,7 @@ namespace ExileCore.PoEMemory.MemoryObjects
         private long LabDataPtr => _IngameData.Value.LabDataPtr;
         public LabyrinthData LabyrinthData => LabDataPtr == 0 ? null : GetObject<LabyrinthData>(LabDataPtr);
         public TerrainData Terrain => _IngameData.Value.Terrain;
-
+        public TerrainDataObject CurrentTerrainData => _CurrentTerrainDataObject.Value;
         public Dictionary<GameStat, int> MapStats
         {
             get

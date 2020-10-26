@@ -99,6 +99,7 @@ namespace GameOffsets
         //[FieldOffset(0x7D8)] public long HeistLockerPanel;
         //[FieldOffset(0x810)] public long GuildPermissionsPanel;
         [FieldOffset(0x830)] public long AreaInstanceUi;
+        [FieldOffset(0x840)] public long YouHaveDiedWindow;// Outdated (as of 3.12)
         //[FieldOffset(0x840)] public long HeistLeaveNotifyPanel;
         //[FieldOffset(0x848)] public long MysteryBoxPanel;
         //[FieldOffset(0x850)] public long MtxSalvagePanel;
@@ -114,8 +115,10 @@ namespace GameOffsets
         //[FieldOffset(0x9E0)] public long SynthesisRewardNotifyPanel;
         //[FieldOffset(0x9E8)] public long BlightProgressPanel;
         //[FieldOffset(0xA00)] public long HeistNotifyPanel;
+        [FieldOffset(0x8A0)] public long MetamorphisActivateThaneButton;// Outdated (as of 3.12)
         [FieldOffset(0x8A8)] public long InvitesPanel;
         [FieldOffset(0xA10)] public long ItemOnGroundTooltip;
 		[FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
-	}
+        [FieldOffset(0xaf8)] public long MapTabWindow; // Outdated (as of 3.12)
+    }
 }

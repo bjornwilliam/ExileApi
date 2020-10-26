@@ -1,4 +1,5 @@
 ﻿using ExileCore;
+using ExileCore.PoEMemory;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.Elements;
 using ExileCore.PoEMemory.Elements.InventoryElements;
@@ -178,6 +179,8 @@ namespace Willplug.Navigation
             //var rows = gameController.IngameState.Data.Terrain.NumRows;
             //var cols = gameController.IngameState.Data.Terrain.NumCols;
             //var bytesPerRow = gameController.IngameState.Data.Terrain.BytesPerRow;
+
+            //var meleeData = gameController.IngameState.Data.Terrain.LayerMelee.
             //var meleeData = gameController.IngameState.Data.Terrain.LayerMelee;
             
 
