@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F1DFA5E6-3066-483E-870E-C3B59D3739F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Willplug</RootNamespace>
+    <AssemblyName>Willplug</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\PoeHelper\Plugins\Compiled\WillPlug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="config\debuffPanel.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config\FlaskBuffDetails.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config\flaskinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config\languages\Russian\FlaskBuffDetails.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config\languages\Russian\flaskinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Roy-T.AStar\Roy-T.AStar.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BotBehavior\AreaBehavior.cs" />
+    <Compile Include="BotBehavior\Buffs\BuffBehavior.cs" />
+    <Compile Include="BotBehavior\Buffs\BvBuffs.cs" />
+    <Compile Include="BotBehavior\Buffs\NecroBuffs.cs" />
+    <Compile Include="BotBehavior\ChestBehavior.cs" />
+    <Compile Include="BotBehavior\Combat\NecroCombat.cs" />
+    <Compile Include="BotBehavior\Combat\CombatRoutine.cs" />
+    <Compile Include="BotBehavior\Combat\Core\Spell.cs" />
+    <Compile Include="BotBehavior\Combat\Targeting.cs" />
+    <Compile Include="BotBehavior\CommonBehavior.cs" />
+    <Compile Include="BotBehavior\LevelGemsBehavior.cs" />
+    <Compile Include="BotBehavior\LoginBehavior.cs" />
+    <Compile Include="BotBehavior\LootBehavior.cs" />
+    <Compile Include="BotBehavior\Town\ChaosRecipeBehavior.cs" />
+    <Compile Include="BotBehavior\Town\MapPrepBehavior.cs" />
+    <Compile Include="BotBehavior\SellBehavior.cs" />
+    <Compile Include="BotBehavior\Town\StashBehavior.cs" />
+    <Compile Include="BotBehavior\Town\TownBehavior.cs" />
+    <Compile Include="BotInventory.cs" />
+    <Compile Include="Enemies.cs" />
+    <Compile Include="FixedSizeQueue.cs" />
+    <Compile Include="FloodSpill\FloodBounds.cs" />
+    <Compile Include="FloodSpill\FloodParameters.cs" />
+    <Compile Include="FloodSpill\FloodScanlineSpiller.cs" />
+    <Compile Include="FloodSpill\FloodSpiller.cs" />
+    <Compile Include="FloodSpill\IFloodSpiller.cs" />
+    <Compile Include="FloodSpill\NeighbourhoodType.cs" />
+    <Compile Include="FloodSpill\NeighbourProcessors\AddToListNeighbourProcessor.cs" />
+    <Compile Include="FloodSpill\NeighbourProcessors\BaseNeighbourProcessor.cs" />
+    <Compile Include="FloodSpill\NeighbourProcessors\FindHighestMarkNeighbourProcessor.cs" />
+    <Compile Include="FloodSpill\Position.cs" />
+    <Compile Include="FloodSpill\PositionVisitors\AddToListPositionVisitor.cs" />
+    <Compile Include="FloodSpill\PositionVisitors\BasePositionVisitor.cs" />
+    <Compile Include="FloodSpill\Queues\FifoPositionQueue.cs" />
+    <Compile Include="FloodSpill\Queues\LifoPositionQueue.cs" />
+    <Compile Include="FloodSpill\Queues\PositionQueueAdapter.cs" />
+    <Compile Include="FloodSpill\Queues\PriorityPositionQueue.cs" />
+    <Compile Include="FloodSpill\Utilities\FunctionalComparer.cs" />
+    <Compile Include="FloodSpill\Utilities\MarkMatrixVisualiser.cs" />
+    <Compile Include="FloodSpill\Utilities\Predicate.cs" />
+    <Compile Include="InputWrapper.cs" />
+    <Compile Include="Navigation\Exploration.cs" />
+    <Compile Include="Navigation\ExplorationGrid.cs" />
+    <Compile Include="Navigation\Mover.cs" />
+    <Compile Include="Navigation\MoverHelper.cs" />
+    <Compile Include="MyExtensions.cs" />
+    <Compile Include="MyLocks.cs" />
+    <Compile Include="Navigation\NodeGraph.cs" />
+    <Compile Include="Navigation\PathfindingConsts.cs" />
+    <Compile Include="Navigation\StuckTracker.cs" />
+    <Compile Include="Navigation\SubMap.cs" />
+    <Compile Include="Navigation\ZoneMap.cs" />
+    <Compile Include="Navigation\PathFindingWrapper.cs" />
+    <Compile Include="Pickit\CustomItem.cs" />
+    <Compile Include="Pickit\Misc.cs" />
+    <Compile Include="Pickit\Mouse.cs" />
+    <Compile Include="Pickit\Pickit.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roy-T.AStar\AssemblyInfo.cs" />
+    <Compile Include="Roy-T.AStar\Collections\MinHeap.cs" />
+    <Compile Include="Roy-T.AStar\Graphs\Edge.cs" />
+    <Compile Include="Roy-T.AStar\Graphs\IEdge.cs" />
+    <Compile Include="Roy-T.AStar\Graphs\INode.cs" />
+    <Compile Include="Roy-T.AStar\Graphs\Node.cs" />
+    <Compile Include="Roy-T.AStar\Grids\Grid.cs" />
+    <Compile Include="Roy-T.AStar\Paths\Path.cs" />
+    <Compile Include="Roy-T.AStar\Paths\PathFinder.cs" />
+    <Compile Include="Roy-T.AStar\Paths\PathFinderNode.cs" />
+    <Compile Include="Roy-T.AStar\Paths\PathReconstructor.cs" />
+    <Compile Include="Roy-T.AStar\Paths\PathType.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\Distance.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\Duration.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\GridPosition.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\GridSize.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\Position.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\Size.cs" />
+    <Compile Include="Roy-T.AStar\Primitives\Velocity.cs" />
+    <Compile Include="Navigation\Terrain.cs" />
+    <Compile Include="Sellit\ItemTypes.cs" />
+    <Compile Include="Sellit\Sellit.cs" />
+    <Compile Include="Sellit\SellitItem.cs" />
+    <Compile Include="TreeRoutine\BaseTreeCache.cs" />
+    <Compile Include="TreeRoutine\BaseTreeRoutinePlugin.cs" />
+    <Compile Include="TreeRoutine\BaseTreeSettings.cs" />
+    <Compile Include="TreeRoutine\Buffs\BuffsEnum.cs" />
+    <Compile Include="TreeRoutine\DebuffPanelConfig.cs" />
+    <Compile Include="TreeRoutine\DefaultBehaviors\Actions\UseHotkeyAction.cs" />
+    <Compile Include="TreeRoutine\DefaultBehaviors\Helpers\FlaskHelper.cs" />
+    <Compile Include="TreeRoutine\DefaultBehaviors\Helpers\KeyboardHelper.cs" />
+    <Compile Include="TreeRoutine\DefaultBehaviors\Helpers\PlayerHelper.cs" />
+    <Compile Include="TreeRoutine\DefaultBehaviors\Helpers\TreeHelper.cs" />
+    <Compile Include="TreeRoutine\FlaskComponents\FlaskActions.cs" />
+    <Compile Include="TreeRoutine\FlaskComponents\FlaskInformation.cs" />
+    <Compile Include="TreeRoutine\FlaskComponents\MiscBuffInfo.cs" />
+    <Compile Include="TreeRoutine\FlaskComponents\PlayerFlask.cs" />
+    <Compile Include="TreeRoutine\Menu\ImGuiExtension.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Action.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Composite.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Decorator.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\DecoratorContinue.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\GroupComposite.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Interrupt.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Inverter.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Parallel.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\ParallelSelector.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\PrioritySelector.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\RandomSelector.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\RunStatus.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Selector.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Sequence.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Switch.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\UntilFailure.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\UntilSuccess.cs" />
+    <Compile Include="TreeRoutine\TreeSharp\Wait.cs" />
+    <Compile Include="WillBot.cs" />
+    <Compile Include="WillPlayer.cs" />
+    <Compile Include="WillplugSettings.cs" />
+    <Compile Include="Willplug.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Core.csproj">
+      <Project>{5539d732-34a7-44ab-9e28-116c3429b12a}</Project>
+      <Name>Core</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\GameOffsets\GameOffsets.csproj">
+      <Project>{38084BC9-079D-487E-B774-D2F407DC8389}</Project>
+      <Name>GameOffsets</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="C5, Version=2.5.0.0, Culture=neutral, PublicKeyToken=282361b99ded7e8e, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\C5.2.5.3\lib\net45\C5.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\..\..\PoEHelper\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics">
+      <HintPath>..\..\..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="chestWhitelist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Pickit\ignored_currency.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="config\languages\Readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
