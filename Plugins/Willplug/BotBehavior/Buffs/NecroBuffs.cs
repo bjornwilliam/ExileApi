@@ -48,6 +48,8 @@ namespace Willplug.BotBehavior
 
         public static string carrionGolemBuff = "bone_golem_buff";
 
+        public static string bladeVortexCounterBuff = "blade_vortex_counter";
+
         public static WillPlayer Me { get => WillBot.Me; }
 
         public static Camera Camera => WillBot.gameController.IngameState.Camera;

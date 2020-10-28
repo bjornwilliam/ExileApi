@@ -466,6 +466,18 @@ namespace Willplug
             return true;
         }
 
+        public int GetChargesForBuff(string nameOfBuff)
+        {
+            var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
+            var playerBuffs = playerLife.Buffs;
+
+            if (playerBuffs == null || String.IsNullOrEmpty(nameOfBuff))
+                return 0;
+
+            var buff = playerBuffs.Find(x => !String.IsNullOrWhiteSpace(x.Name) && nameOfBuff.StartsWith(x.Name));
+            return buff?.Charges ?? 0;
+        }
+
         public int CountPlayerDeployedObjectsWithName(string name)
         {
             var actor = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>();

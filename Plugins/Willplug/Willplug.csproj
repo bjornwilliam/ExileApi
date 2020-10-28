@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotBehavior\AreaBehavior.cs" />
+    <Compile Include="BotBehavior\Buffs\BladeVortexChar.cs" />
     <Compile Include="BotBehavior\Buffs\BuffBehavior.cs" />
     <Compile Include="BotBehavior\Buffs\BvBuffs.cs" />
     <Compile Include="BotBehavior\Buffs\NecroBuffs.cs" />
@@ -214,6 +215,7 @@
     <Content Include="chestWhitelist.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="HeistMapBosses.txt" />
     <Content Include="Pickit\ignored_currency.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
