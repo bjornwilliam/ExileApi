@@ -112,8 +112,9 @@ namespace Willplug.BotBehavior
                 return WillBot.Plugin.TreeHelper.CanTickMap();
             },
              new PrioritySelector(
-                 SmokeMineMacroComposite(),
-                 CreateUseVortexComposite()
+                 BuffBehavior.CreateBerserkComposite()
+                 //SmokeMineMacroComposite(),
+                 //CreateUseVortexComposite()
                  //ActivateSoulOfArakaliDefensiveComposite()
                 //CreateUseEnduringCryComposite()
                 //CreateUseVortexComposite(),

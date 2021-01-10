@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BotBehavior\AreaBehavior.cs" />
+    <Compile Include="BotBehavior\Buffs\VortexChar.cs" />
     <Compile Include="BotBehavior\Buffs\BladeVortexChar.cs" />
     <Compile Include="BotBehavior\Buffs\BuffBehavior.cs" />
     <Compile Include="BotBehavior\Buffs\BvBuffs.cs" />

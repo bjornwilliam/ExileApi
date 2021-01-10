@@ -142,20 +142,66 @@ namespace Willplug.BotBehavior
                ));
         }
 
+        static int berserkCooldownMs = 3900;
+        static bool berserkActiveLastCheck = false;
+        static bool activateBerserkNow = false;
+        static DateTime berserkEndedTime = DateTime.Now;
         static public Composite CreateBerserkComposite()
         {
-            return new Decorator(x => DateTime.Now.Subtract(previousBerserkUseTime).TotalMilliseconds > 5000,
-                new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }),
-                new Decorator(x => !Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { rageBuff }),
-                new Sequence(
-                    new Action(delegate
+            // If berserk was active last check and not active now: note time of end berserk
+            return new Sequence(
+                new Action(delegate {
+
+                    if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) && berserkActiveLastCheck == true)
                     {
-                        previousBerserkUseTime = DateTime.Now;
-                        return RunStatus.Success;
-                    }),
-                    new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.T)
-               ))));
+                        berserkEndedTime = DateTime.Now;
+                    }
+
+                    if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) == false)
+                    {
+                        berserkActiveLastCheck = true;
+                    }
+                    else
+                    {
+                        berserkActiveLastCheck = false;
+                    }
+                    return RunStatus.Success;
+ 
+                }),
+                new DecoratorContinue(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) && DateTime.Now.Subtract(berserkEndedTime).TotalMilliseconds > berserkCooldownMs,
+                    new Sequence(
+                            new Action(delegate
+                            {
+                                Console.WriteLine("Activating berserk");
+                                //previousBerserkUseTime = DateTime.Now;
+                                return RunStatus.Success;
+                            }),
+                            new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.W))
+
+
+                    )
+
+                );
+
+
         }
+
+        //return new Decorator(x => DateTime.Now.Subtract(previousBerserkUseTime).TotalMilliseconds > 4800,
+        //    new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }),
+        //    new Decorator(x=> Me.GetChargesForBuff(rageBuff) > 15,
+        //    //new Decorator(x => !Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { rageBuff }),
+        //    new Sequence(
+        //        new Action(delegate
+        //        {
+        //            Console.WriteLine("Activating berserk");
+        //            previousBerserkUseTime = DateTime.Now;
+        //            return RunStatus.Success;
+        //        }),
+        //        new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.W)
+        //   ))));
+        //static public Composite CreateUseBerserkOnCdComposite()
+        //{
+        //}
 
 
 

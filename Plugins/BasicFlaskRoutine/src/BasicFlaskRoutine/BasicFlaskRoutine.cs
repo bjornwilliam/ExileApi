@@ -210,7 +210,8 @@ namespace TreeRoutine.Routine.BasicFlaskRoutine
                     new Decorator(x => Settings.RemShocked, CreateCurableDebuffDecorator(Cache.DebuffPanelConfig.Shocked, CreateUseFlaskAction(FlaskActions.ShockImmune, isCleansing: true))),
                     new TreeSharp.Action(delegate
                     {
-                        Console.WriteLine("Right before checkign for curse remove");
+                        //Console.WriteLine("Right before checkign for curse remove");
+                        //Console.WriteLine("rightight");
                         var debuffstuff = Cache.DebuffPanelConfig.WeakenedSlowed;
                         return RunStatus.Failure;
                     }),
