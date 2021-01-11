@@ -214,6 +214,9 @@ namespace Stashie
                 "Gloves:\t\t\t!identified,Rarity=Rare,ilvl>=60,ClassName=Gloves \t\t\t\t\t:Chaos Recipe";
             #endregion
             CreateFileAndAppendTextIfItDoesNotExitst(path, filtersConfig);
+
+            //var affinityFilters = new List<string>() { "ClassName = MapFragment | BaseName ^ Splinter, ClassName = StackableCurrency | ClassName = LabyrinthMapItem | BaseName ^ Scarab",
+            //};
         }
 
         public override void DrawSettings()
@@ -596,6 +599,7 @@ namespace Stashie
                     var baseItemType = GameController.Files.BaseItemTypes.Translate(invItem.Item.Path);
                     var testItem = new ItemData(invItem, baseItemType);
                     var result = CheckFilters(testItem);
+           
                     if (result != null)
                     {
                         _dropItems.Add(result);
@@ -683,6 +687,7 @@ namespace Stashie
                 yield return new WaitTime((int)ingameStateCurLatency);
                 LogMessage($"Want drop {sortedByStash.Count} items.");
 
+                // Filter-> stashindexnode-> name
                 foreach (var stashResults in sortedByStash)
                 {
                     coroutineIteration++;
@@ -699,8 +704,11 @@ namespace Stashie
                         {
                             break;
                         }
-                    }
 
+                    }
+                    // Stashresults.filters -> name == affinity stuff -> just click without browsing tab
+                    var affinityOverrides = new List<string>() {"Diviniation","Oils","Meta Samples","Delirium Orb", "Incubators","Fossils","Resonators", "Essences", "Dawn","Dusk","Noon",
+                    "Midnight","Scarabs", "Breachstones","Fragments","Labyrint","Currency","Uniques-All","Maps"};                     
                     if (stashResults.StashIndex != visibleStashIndex)
                     {
                         StackItemTimer.Restart();
@@ -748,8 +756,17 @@ namespace Stashie
                             if (StackItemTimer.ElapsedMilliseconds > 1000 + latency)
                                 break;
                         }
-
-                        yield return SwitchToTab(stashResults.StashIndex);
+                        if (string.IsNullOrEmpty(stashResults?.Filter?.Name) == false)
+                        {
+                            if (affinityOverrides.Contains(stashResults?.Filter?.Name) == false)
+                            {
+                                yield return SwitchToTab(stashResults.StashIndex);
+                            }
+                        }
+                        else
+                        {
+                            yield return SwitchToTab(stashResults.StashIndex);
+                        }                   
                     }
 
                     var visibleInventory = GameController.IngameState.IngameUi.StashElement.AllInventories[visibleStashIndex];
