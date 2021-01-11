@@ -25,6 +25,8 @@ namespace Willplug.BotBehavior
         private static int Latency => (int)GameController.IngameState.CurLatency;
 
 
+
+
         private static void TrackAndClickLoot(CustomItem item)
         {
             if (item?.LabelOnGround?.Label != null)

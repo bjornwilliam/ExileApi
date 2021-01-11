@@ -20,6 +20,7 @@ namespace Willplug
             Debug = new ToggleNode(true);
             TestKey1 = Keys.F3;
             TestKey2 = Keys.F4;
+            TryLootNearbykey = Keys.V;
             MovementAbilityKey = Keys.E;
             UseStashieKey = Keys.F6;
             CloseAllPanelsKey = Keys.L;
@@ -124,6 +125,7 @@ namespace Willplug
         public HotkeyNode MovementAbilityKey { get; set; }
         public HotkeyNode TestKey1 { get; set; }
         public HotkeyNode TestKey2 { get; set; }
+        public HotkeyNode TryLootNearbykey { get; set; }
 
         public HotkeyNode CloseAllPanelsKey { get; set; }
 

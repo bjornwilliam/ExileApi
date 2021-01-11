@@ -324,7 +324,7 @@ namespace Willplug
                         , CommonBehavior.DefaultMovementSpec));
         }
 
-        public static bool DoLooting()
+        public static bool DoLooting(bool ignoreStrongBox=false)
         {
             var closestMonster = WillBot.Me.enemies.ClosestMonsterEntity;
 
@@ -332,7 +332,7 @@ namespace Willplug
 
             bool lootIsCloseEnough = WillBot.Me.ClosestItemToLoot != null && WillBot.Me.ClosestItemToLoot.GridPos.Distance(GameController.Player.GridPos) < 150;
 
-            bool unOpenedStrongBox = WillBot.Me.StrongBox != null;
+            bool unOpenedStrongBox = ignoreStrongBox == true ? false :  WillBot.Me.StrongBox != null;
             if (noMonstersCloseToLoot && lootIsCloseEnough && !unOpenedStrongBox)
             {
                 return true;

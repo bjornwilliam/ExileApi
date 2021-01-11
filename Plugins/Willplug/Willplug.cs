@@ -59,6 +59,10 @@ namespace Willplug
         private Coroutine BuffTreeCoroutine { get; set; }
         private const string buffTreeroutineName = "Buffstree";
 
+        private Coroutine AutoLootCoroutine { get; set; }
+        private const string autoLootCoroutineName = "autoloot";
+        public Composite AutoLootTree { get; set; }
+
 
 
         public WillplugCore() : base()
@@ -97,6 +101,7 @@ namespace Willplug
 
             Input.RegisterKey(Settings.TestKey1);
             Input.RegisterKey(Settings.TestKey2);
+            Input.RegisterKey(Settings.TryLootNearbykey);
             //BuffTree = BuffBehavior.CreateBerserkerBuffTree();
             //BuffTree = NecroBuffs.CreateNecroBuffTree();
             BuffTree = BvBuffs.CreateTree();
@@ -113,6 +118,7 @@ namespace Willplug
             };
             InitCoroutine();
             InitBuffRoutine();
+            InitAutoLootRoutine();
             #region PickitRelated
             DebugTimer.Reset();
             Settings.MouseSpeed.OnValueChanged += (sender, f) => { Mouse.speedMouse = Settings.MouseSpeed.Value; };
@@ -138,10 +144,43 @@ namespace Willplug
             Core.ParallelRunner.Run(BuffTreeCoroutine);
             //BuffTreeCoroutine.Pause();
         }
+
+        private void InitAutoLootRoutine()
+        {
+            AutoLootTree = CreateAutoLootTree();
+            AutoLootCoroutine = new Coroutine(() => TickTree(AutoLootTree), new WaitTime(1000 / 40), this, autoLootCoroutineName);
+            AutoLootCoroutine.AutoResume = false;
+            Core.ParallelRunner.Run(AutoLootCoroutine);
+            AutoLootCoroutine.Pause();
+        }
         protected override void UpdateCache()
         {
             base.UpdateCache();
         }
+
+        static bool autoLootingDone = false;
+        public static Composite CreateAutoLootTree()
+        {
+            return new Decorator(delegate
+            {
+                if (WillBot.Plugin.TreeHelper.CanTickMap() && CommonBehavior.DoLooting(ignoreStrongBox:true))
+                {
+                    return true;
+                }
+                else
+                {
+                    autoLootingDone = true;
+                    return false;
+                }
+            },
+             new Sequence(
+                  new Inverter(CommonBehavior.MoveTo(x => WillBot.Me.ClosestItemToLoot?.GridPos,
+                  y => WillBot.Me.ClosestItemToLoot?.LabelOnGround?.ItemOnGround?.Pos, CommonBehavior.LootingMovementSpec)),
+                 LootBehavior.TryToPickLootCloseToPlayer()
+                ));
+        }
+
+
 
         private DateTime previousBreakTime = DateTime.Now;
         private TimeSpan breakInterval = new TimeSpan(3, 59, 0);
@@ -271,7 +310,7 @@ namespace Willplug
                             CommonBehavior.OpenAndEnterTownPortal())
                      )),
                     CommonBehavior.DoExploringComposite()
-                ))) ;
+                )));
 
         }
 
@@ -448,6 +487,20 @@ namespace Willplug
 
 
             }
+            if (Settings.TryLootNearbykey.PressedOnce())
+            {
+                AutoLootCoroutine.AutoResume = true;
+                AutoLootCoroutine.Resume();
+                Console.WriteLine("Looting nearby");
+            }
+            if (autoLootingDone == true)
+            {
+                AutoLootCoroutine.AutoResume = false;
+                AutoLootCoroutine.Pause();
+                Console.WriteLine("Looting done");
+                autoLootingDone = false;
+            }
+
             //Debug check for seed cache
             //var nearestEntities = GameController.Entities.Where(x => x.DistancePlayer < 15).ToList();
             //foreach (var entity in nearestEntities)
@@ -459,9 +512,9 @@ namespace Willplug
             if (WillBot.isBotPaused == false)
             {
                 WillBot.Mover.UpdateExplored();
-                pickit.UpdateItemsToPickUp();
                 StuckTracker.Update();
             }
+            pickit.UpdateItemsToPickUp();
             return null;
         }
 
