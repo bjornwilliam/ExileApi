@@ -104,7 +104,7 @@ namespace Willplug
             Input.RegisterKey(Settings.TryLootNearbykey);
             //BuffTree = BuffBehavior.CreateBerserkerBuffTree();
             //BuffTree = NecroBuffs.CreateNecroBuffTree();
-            BuffTree = BvBuffs.CreateTree();
+            BuffTree = CharacterAbilityTrees.CreateVortexCharAbilityTree();
             Tree = CreateTree();
             Settings.Enable.OnValueChanged += (sender, b) =>
             {
@@ -204,7 +204,7 @@ namespace Willplug
                  )),
                //new Inverter(CommonBehavior.CloseOpenPanels()),
                CommonBehavior.HandleDestroyItemPopup(),
-                NecroBuffs.ActivateNecroAuras(),
+                CharacterAbilityTrees.ActivateNecroAuras(),
                 new Action(delegate
                 {
                     CommonBehavior.CouldNotFindValidPositionToExplore = false;
@@ -239,7 +239,7 @@ namespace Willplug
                     },
                         CommonBehavior.OpenAndEnterTownPortal()
                     ),
-                      NecroBuffs.CreateNecroBuffTree(),
+                      CharacterAbilityTrees.CreateNecroBuffTree(),
                     new Decorator(ret => CommonBehavior.DoCombat(), NecroCombat.NecroCombatComposite()),
                     LevelGemsBehavior.LevelGems(),
                     LootBehavior.BuildLootComposite(),

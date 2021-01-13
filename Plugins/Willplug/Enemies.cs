@@ -160,7 +160,15 @@ namespace Willplug
             //essence monolith: Metadata/MiscellaneousObjects/Monolith
             //Essence monster : Monster->stats->cannotbedamaged
             bool isDamageable = true;
-            var monsterStats = entity.GetComponent<Stats>();
+            Stats monsterStats = null;
+            try
+            {
+                monsterStats = entity.GetComponent<Stats>();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Failed while getting component stats in checking for entity killable");
+            }
             if (monsterStats != null)
             {
                 int cannotBeDamagedNumber = -1;

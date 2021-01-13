@@ -19,36 +19,30 @@ using ExileCore.Shared.Enums;
 
 namespace Willplug.BotBehavior
 {
-    public static class NecroBuffs
+    public static class CharAbilities
     {
         public static string enduringCryLifeRegenBuff = "usemax_life_regen";
         public static string moltenShellShieldBuff = "molten_shell_shield";
         public static string berserkBuff = "berserk";
         public static string rageBuff = "rage";
         public static string onslaughtBuff = "onslaught";
-
         public static string dreadBannerBuff = "banner_add_stage_on_impale";
-
         public static string prideAuraBuff = "player_physical_damage_aura";
         public static string bloodAndSandAuraBloodStance = "blood_armour";
         public static string bloodAndSandAuraSandStance = "blood_armour";
         public static string boneArmourBuff = "bone_armour";
-
         public static DateTime lastBoneOfferingUseTime = DateTime.Now;
         public static int minimumBoneOfferingIntervalMs = 7300;
         public static string boneOfferingBuff = "offering_defensive";
-
         public static string skitterBotsBuff = "skitterbots_buff";
         public static string hatredBuff = "player_aura_cold_damage";
 
         public static string frostbiteBuff = "curse_cold_weakness";
-
         public static int maxZombies = 8;
         public static string raisedZombieName = "RaisedZombieStandard";
-
         public static string carrionGolemBuff = "bone_golem_buff";
-
         public static string bladeVortexCounterBuff = "blade_vortex_counter";
+
 
         public static WillPlayer Me { get => WillBot.Me; }
 
@@ -63,18 +57,15 @@ namespace Willplug.BotBehavior
 
         private static DateTime previousTryRaiseZombieTime = DateTime.Now;
 
+
+        private static DateTime previousUseDousingFlaskTime = DateTime.Now;
+
+
+
         public delegate Keys BuffHotkeyPrefix(object context);
         public delegate Keys BuffHotkeySuffix(object context);
         public delegate string BuffNameDelegate(object context);
 
-        public static Composite ActivateNecroAuras()
-        {
-            return new PrioritySelector(
-                ActivateAura(x => skitterBotsBuff, x => Keys.LControlKey, x => Keys.R),
-                ActivateAura(x => hatredBuff, x => Keys.LControlKey, x => Keys.H),
-                ActivateAura(x => carrionGolemBuff, x => Keys.None, x => Keys.W)
-                );
-        }
 
 
 
@@ -99,32 +90,6 @@ namespace Willplug.BotBehavior
         }
 
 
-
-        // 
-        public static Composite CreateNecroBuffTree()
-        {
-            return new Decorator(delegate
-            {
-
-                //WillBot.LogMessageCombo("In buffs decorator");
-                //Console.WriteLine("In buffs decorator");    
-                return WillBot.Plugin.TreeHelper.CanTickMap();
-            },
-             new PrioritySelector(
-                CreateUseEnduringCryComposite(),
-                CreateUseVortexComposite(),
-                CreateUseBoneArmorComposite(),
-                //CreateUseBoneOfferingComposite(),
-                UseConvocation(),
-                CreateUseFrostbiteComposite(),
-                RaiseZombieComposite()
-                // add summon zombies if less than cap
-                // add curse 
-
-
-                // CreateMoltenShellComposite()
-                ));
-        }
 
 
         public static Composite RaiseZombieComposite()
@@ -161,6 +126,18 @@ namespace Willplug.BotBehavior
         //   int zombieCount = Me.CountPlayerDeployedObjectsWithName(raisedZombieName);
 
 
+        private static bool ShouldEntityBeCursed(Entity entity, string curseBuffName)
+        {
+            if (entity == null) return false;
+            if (entity.Rarity == ExileCore.Shared.Enums.MonsterRarity.Rare || entity.Rarity == MonsterRarity.Unique)// || entity.Rarity == ExileCore.Shared.Enums.MonsterRarity.Magic)
+            {
+                if (Me.entityDoesNotHaveAnyOfBuffs(entity, new List<string>() { curseBuffName }) == true)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private static bool ShouldEntityBeFrostbiteCursed(ExileCore.PoEMemory.MemoryObjects.Entity entity)
         {
@@ -175,6 +152,19 @@ namespace Willplug.BotBehavior
             return false;
         }
 
+        private static (bool, Vector3) TryFindEntityToCurse(List<Entity> entities, string curseBuffName)
+        {
+            if (Me.enemies.NearbyMonsters == null || Me.enemies.NearbyMonsters.Count == 0) return (false, new Vector3());
+
+            foreach (var entity in entities)
+            {
+                if (ShouldEntityBeCursed(entity, curseBuffName) == true)
+                {
+                    return (true, entity.Pos);
+                }
+            }
+            return (false, new Vector3());
+        }
         private static (bool, Vector3) TryFindEntityToFrostbite(List<Entity> entities)
         {
             if (Me.enemies.NearbyMonsters == null || Me.enemies.NearbyMonsters.Count == 0) return (false, new Vector3());
@@ -193,6 +183,43 @@ namespace Willplug.BotBehavior
         private static DateTime previousCheckForFrostbiteTime = DateTime.Now;
         private static Vector2 positionToFrostBite = new Vector2();
         private static Vector2 previousMousePosition = new Vector2();
+
+        public static Composite CreateUseCurseComposite(BuffDebuffAbility abilityDesc) // string curseBuffName,Keys hotkey)
+        {
+            return new Decorator(delegate
+            {
+                if (DateTime.Now.Subtract(abilityDesc.previousTryToUseTime).TotalMilliseconds > abilityDesc.minimumIntervalBetweenUsagesMs)
+                {
+                    abilityDesc.previousTryToUseTime = DateTime.Now;
+
+                }
+                else return false;
+                var ret = TryFindEntityToCurse(Me.enemies.NearbyMonsters, abilityDesc.buffDebuffName);
+                if (ret.Item1 == true)
+                {
+                    var worldCoords = ret.Item2;
+                    var mobScreenCoords = Camera.WorldToScreen(worldCoords);
+                    abilityDesc.locationToUseAbility = mobScreenCoords;
+                    return true;
+                }
+                return false;
+            },
+            new Sequence(
+                new Action(delegate
+                {
+                    abilityDesc.mousePositionBeforeAbilityUsage = Mouse.GetCursorPosition();
+                    Mouse.SetCursorPosAndLeftOrRightClick(abilityDesc.locationToUseAbility, 15, clickType: Mouse.MyMouseClicks.NoClick);
+                    return RunStatus.Success;
+                }),
+                  new UseHotkeyAction(WillBot.KeyboardHelper, x => abilityDesc.hotKey),
+                  new Action(delegate
+                  {
+                      Mouse.SetCursorPos(abilityDesc.mousePositionBeforeAbilityUsage);
+                      return RunStatus.Success;
+                  })
+                  ));
+        }
+
         public static Composite CreateUseFrostbiteComposite()
         {
             return new Decorator(delegate
@@ -386,22 +413,109 @@ namespace Willplug.BotBehavior
             });
         }
 
+        public static Composite CreateUseBladeVortexComposite()
+        {
+            return new Decorator(delegate
+            {
+                // WillBot.LogMessageCombo("In create using enduring composite");
+                //if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { onslaughtBuff })) // add + some other condition
+                //{
+                //    return true;
+                //}
+                if (Me.GetChargesForBuff(bladeVortexCounterBuff) <= 3)
+                {
+                    return true;
+                }
+                return false;
+            },
+                new Sequence(
+                    new Action(delegate
+                    {
 
-        //static public Composite CreateBerserkComposite()
-        //{
-        //    return new Decorator(x => DateTime.Now.Subtract(previousBerserkUseTime).TotalMilliseconds > 5000,
-        //        new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }),
-        //        new Decorator(x => !Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { rageBuff }),
-        //        new Sequence(
-        //            new Action(delegate
-        //            {
-        //                previousBerserkUseTime = DateTime.Now;
-        //                return RunStatus.Success;
-        //            }),
-        //            new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.T)
-        //       ))));
-        //}
+                        return RunStatus.Success;
+                    }),
 
+                    ComboHotkey(x => Keys.LControlKey, y => Keys.W))
+
+               );
+        }
+
+        static int berserkCooldownMs = 3900;
+        static bool berserkActiveLastCheck = false;
+        static bool activateBerserkNow = false;
+        static DateTime berserkEndedTime = DateTime.Now;
+        static public Composite CreateBerserkComposite()
+        {
+            // If berserk was active last check and not active now: note time of end berserk
+            return new Sequence(
+                new Action(delegate
+                {
+
+                    if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) && berserkActiveLastCheck == true)
+                    {
+                        berserkEndedTime = DateTime.Now;
+                    }
+
+                    if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) == false)
+                    {
+                        berserkActiveLastCheck = true;
+                    }
+                    else
+                    {
+                        berserkActiveLastCheck = false;
+                    }
+                    return RunStatus.Success;
+
+                }),
+                new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { berserkBuff }) && DateTime.Now.Subtract(berserkEndedTime).TotalMilliseconds > berserkCooldownMs,
+                    new Sequence(
+                            new Action(delegate
+                            {
+                                Console.WriteLine("Activating berserk");
+                                //previousBerserkUseTime = DateTime.Now;
+                                return RunStatus.Success;
+                            }),
+                            new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.W))
+                    )
+                );
+        }
+
+        public static Composite ActivateSoulOfArakaliDefensiveComposite()
+        {
+            return new Decorator(delegate
+            {
+                bool dousingFlaskHasUsesLeft = WillBot.Plugin.FlaskHelper.GetFlaskInfo(WillBot.Settings.DousingFlaskIndex.Value)?.TotalUses > 0;
+                if (Me.isHealthBelowPercentage(90) && DateTime.Now.Subtract(previousUseDousingFlaskTime).TotalMilliseconds > 3400 && dousingFlaskHasUsesLeft)
+                {
+                    Console.WriteLine("using soul of arakaali");
+                    return true;
+                }
+                return false;
+            },
+         new Sequence(
+            ComboHotkey(x => WillBot.Settings.RighteousFirePrefixKey, y => WillBot.Settings.RighteousFireSuffixKey),
+            new Action(delegate
+            {
+                previousUseDousingFlaskTime = DateTime.Now;
+                Thread.Sleep(100);
+                return RunStatus.Success;
+            }),
+            new UseHotkeyAction(WillBot.KeyboardHelper, x => WillBot.Settings.UseDousingFlaskKey)
+         )
+            );
+        }
+        public static Composite SmokeMineMacroComposite()
+        {
+            return new Decorator(delegate { return Me.Settings.SmokeMineMacroActivationKey.PressedOnce(); }, new Sequence(
+                ComboHotkey(x => WillBot.Settings.SmokeMineMacroKeyPrefix, y => WillBot.Settings.SmokeMineMacroKeySuffix),
+                new Action(delegate
+                {
+                    Thread.Sleep(280);
+                    return RunStatus.Success;
+                }),
+                   new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.D)
+                ));
+        }
 
 
         /*Player -> Components -> actor -> actorskills

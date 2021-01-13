@@ -56,12 +56,10 @@
     <None Include="Roy-T.AStar\Roy-T.AStar.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BotBehavior\Abilities\CharAbilities.cs" />
+    <Compile Include="BotBehavior\Abilities\BuffDebuffAbility.cs" />
+    <Compile Include="BotBehavior\Abilities\CharacterAbilityTrees.cs" />
     <Compile Include="BotBehavior\AreaBehavior.cs" />
-    <Compile Include="BotBehavior\Buffs\VortexChar.cs" />
-    <Compile Include="BotBehavior\Buffs\BladeVortexChar.cs" />
-    <Compile Include="BotBehavior\Buffs\BuffBehavior.cs" />
-    <Compile Include="BotBehavior\Buffs\BvBuffs.cs" />
-    <Compile Include="BotBehavior\Buffs\NecroBuffs.cs" />
     <Compile Include="BotBehavior\ChestBehavior.cs" />
     <Compile Include="BotBehavior\Combat\NecroCombat.cs" />
     <Compile Include="BotBehavior\Combat\CombatRoutine.cs" />
