@@ -211,7 +211,8 @@ namespace Willplug.BotBehavior
                     Mouse.SetCursorPosAndLeftOrRightClick(abilityDesc.locationToUseAbility, 15, clickType: Mouse.MyMouseClicks.NoClick);
                     return RunStatus.Success;
                 }),
-                  new UseHotkeyAction(WillBot.KeyboardHelper, x => abilityDesc.hotKey),
+                    abilityDesc.activationComposite,
+                 // new UseHotkeyAction(WillBot.KeyboardHelper, x => abilityDesc.hotKey),
                   new Action(delegate
                   {
                       Mouse.SetCursorPos(abilityDesc.mousePositionBeforeAbilityUsage);
@@ -327,10 +328,28 @@ namespace Willplug.BotBehavior
                         previousEnduringCryUseTime = DateTime.Now;
                         return RunStatus.Success;
                     }),
+
                     ComboHotkey(x => Keys.LControlKey, y => Keys.W))
 
                );
         }
+
+        public static Composite CreateUseGuardSkillComposite(BuffDebuffAbility abilityDesc)
+        {
+            return new Decorator(delegate
+            {
+                if (Me.isHealthBelowPercentage(70) && DateTime.Now.Subtract(abilityDesc.previousTryToUseTime).TotalMilliseconds > abilityDesc.skillCooldownMs)
+                {
+                    abilityDesc.previousTryToUseTime = DateTime.Now;
+                    return true;
+                }
+                return false;
+            },
+
+                abilityDesc.activationComposite
+           );
+        }
+
 
         public static Composite CreateUseVortexComposite()
         {

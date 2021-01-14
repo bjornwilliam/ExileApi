@@ -22,11 +22,19 @@ namespace Willplug.BotBehavior
     public static class CharacterAbilityTrees
     {
         private static BuffDebuffAbility frostBiteCurseAbility = new BuffDebuffAbility();
+        private static BuffDebuffAbility steelSkinAbility = new BuffDebuffAbility();
         static CharacterAbilityTrees()
         {
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
             frostBiteCurseAbility.minimumIntervalBetweenUsagesMs = 100;
-            frostBiteCurseAbility.hotKey = Keys.A;
+            frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.None, x => Keys.A);
+            
+            
+            steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.W);
+            steelSkinAbility.skillCooldownMs = 3000;
+
+
+
         }
         public static Composite CreateNecroBuffTree()
         {
@@ -65,7 +73,8 @@ namespace Willplug.BotBehavior
              new PrioritySelector(
                 CharAbilities.CreateBerserkComposite(),
                 //CharAbilities.CreateUseFrostbiteComposite(),
-                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility)
+                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
+                CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
                 ));
 

@@ -26,7 +26,7 @@ namespace Willplug.BotBehavior
         public string buffDebuffName;
 
         public int skillCooldownMs;
-        public Keys hotKey;
+        public Composite activationComposite;
 
         public Vector2 locationToUseAbility;
         public Vector2 mousePositionBeforeAbilityUsage;
