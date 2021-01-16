@@ -71,10 +71,10 @@ namespace Willplug.BotBehavior
                 return WillBot.Plugin.TreeHelper.CanTickMap();
             },
              new PrioritySelector(
-                CharAbilities.CreateBerserkComposite(),
-                //CharAbilities.CreateUseFrostbiteComposite(),
-                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
-                CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                //CharAbilities.CreateBerserkComposite(),
+                CharAbilities.CreateUseFrostbiteComposite(),
+                //CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
+                //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
                 ));
 

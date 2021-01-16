@@ -107,8 +107,7 @@ namespace GameOffsets
         //[FieldOffset(0x8E0)] public long SummonTanePanel;
         //[FieldOffset(0x8F8)] public long HideoutMusicPanel;
         //[FieldOffset(0x908)] public long ZoneTravelNotifyPanel;
-<<<<<<< HEAD
-        [FieldOffset(0x958)] public long GemLvlUpPanel;
+
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
         //[FieldOffset(0x9C8)] public long ZeroMustSurvivePanel;
@@ -116,8 +115,8 @@ namespace GameOffsets
         //[FieldOffset(0x9E0)] public long SynthesisRewardNotifyPanel;
         //[FieldOffset(0x9E8)] public long BlightProgressPanel;
         //[FieldOffset(0xA00)] public long HeistNotifyPanel;
-        [FieldOffset(0x8A0)] public long MetamorphisActivateThaneButton;// Outdated (as of 3.12)
-=======
+
+         [FieldOffset(0x8A0)] public long MetamorphisActivateThaneButton;// Outdated (as of 3.12)
         [FieldOffset(0x8D8)] public long GemLvlUpPanel;
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
@@ -126,7 +125,7 @@ namespace GameOffsets
         //[FieldOffset(0x9E0)] public long SynthesisRewardNotifyPanel;
         //[FieldOffset(0x9E8)] public long BlightProgressPanel;
         //[FieldOffset(0xA00)] public long HeistNotifyPanel;
->>>>>>> upstream_master
+
         [FieldOffset(0x8A8)] public long InvitesPanel;
         [FieldOffset(0xA10)] public long ItemOnGroundTooltip;
 		[FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
