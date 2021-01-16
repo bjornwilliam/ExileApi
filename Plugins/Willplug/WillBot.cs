@@ -40,7 +40,7 @@ namespace Willplug
         static private DateTime previousUpdateBotStateTime = DateTime.Now;
 
 
-        static public bool isBotPaused = false;
+        static public bool isBotPaused = true;
 
         public static void LogMessageCombo(string msg)
         {

@@ -141,7 +141,7 @@ namespace Willplug
         {
             BuffTreeCoroutine = new Coroutine(() => TickTree(BuffTree), new WaitTime(1000 / 40), this, "buff tree");
             BuffTreeCoroutine.AutoResume = true;
-            Core.ParallelRunner.Run(BuffTreeCoroutine);
+            //Core.ParallelRunner.Run(BuffTreeCoroutine);
             //BuffTreeCoroutine.Pause();
         }
 
@@ -513,8 +513,9 @@ namespace Willplug
             {
                 WillBot.Mover.UpdateExplored();
                 StuckTracker.Update();
+                pickit.UpdateItemsToPickUp();
+
             }
-            pickit.UpdateItemsToPickUp();
             return null;
         }
 

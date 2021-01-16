@@ -72,7 +72,7 @@ namespace Willplug.BotBehavior
             },
              new PrioritySelector(
                 //CharAbilities.CreateBerserkComposite(),
-                CharAbilities.CreateUseFrostbiteComposite(),
+                CharAbilities.CreateUseFrostbiteComposite()
                 //CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
                 //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
