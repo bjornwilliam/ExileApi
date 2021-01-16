@@ -27,7 +27,7 @@ namespace Willplug.BotBehavior
         {
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
             frostBiteCurseAbility.minimumIntervalBetweenUsagesMs = 100;
-            frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.None, x => Keys.A);
+            frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
             
             
             steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.W);
@@ -72,8 +72,8 @@ namespace Willplug.BotBehavior
             },
              new PrioritySelector(
                 //CharAbilities.CreateBerserkComposite(),
-                CharAbilities.CreateUseFrostbiteComposite()
-                //CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
+                //CharAbilities.CreateUseFrostbiteComposite()
+                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility)
                 //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
                 ));

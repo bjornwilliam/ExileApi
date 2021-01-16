@@ -6,8 +6,8 @@ namespace ExileCore.PoEMemory.MemoryObjects
     public class TerrainDataObject : RemoteMemoryObject
     {
 
-        public long Columns => M.Read<long>(Address + 0x18);
-        public long Rows => M.Read<long>(Address + 0x20);
+        public long Columns => M.Read<long>(Address + 0x18) -1;
+        public long Rows => M.Read<long>(Address + 0x20) -1;
         public int BytesPerRow => M.Read<int>(Address + 0xE0);
 
         public long P1Start => M.Read<long>(Address + 0xB0);
