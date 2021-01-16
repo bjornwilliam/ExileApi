@@ -406,7 +406,7 @@ namespace Willplug
         {
             if (WillBot.isBotPaused == false)
             {
-                DrawLinesOnMinimap();
+                //DrawLinesOnMinimap();
                 //DrawOutlineOfMapOnMiniMap();
 
             }
