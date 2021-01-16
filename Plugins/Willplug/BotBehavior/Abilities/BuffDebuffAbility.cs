@@ -31,6 +31,8 @@ namespace Willplug.BotBehavior
         public Vector2 locationToUseAbility;
         public Vector2 mousePositionBeforeAbilityUsage;
 
+        public bool leftMouseButtonPressedBeforeAbilityUsage = false;
+
 
     }
 }

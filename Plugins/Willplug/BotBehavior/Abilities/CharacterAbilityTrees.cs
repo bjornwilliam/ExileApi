@@ -26,7 +26,7 @@ namespace Willplug.BotBehavior
         static CharacterAbilityTrees()
         {
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
-            frostBiteCurseAbility.minimumIntervalBetweenUsagesMs = 100;
+            frostBiteCurseAbility.minimumIntervalBetweenUsagesMs = 2000;
             frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
             
             
@@ -58,6 +58,7 @@ namespace Willplug.BotBehavior
                 CharAbilities.ActivateAura(x => CharAbilities.skitterBotsBuff, x => Keys.LControlKey, x => Keys.R),
                 CharAbilities.ActivateAura(x => CharAbilities.hatredBuff, x => Keys.LControlKey, x => Keys.H),
                 CharAbilities.ActivateAura(x => CharAbilities.carrionGolemBuff, x => Keys.None, x => Keys.W)
+                
                 );
         }
 
@@ -74,6 +75,7 @@ namespace Willplug.BotBehavior
                 //CharAbilities.CreateBerserkComposite(),
                 //CharAbilities.CreateUseFrostbiteComposite()
                 CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility)
+                //CharAbilities.CreateUseVortexComposite()
                 //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
                 ));

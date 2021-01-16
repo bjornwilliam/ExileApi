@@ -129,12 +129,13 @@ namespace Willplug.BotBehavior
         private static bool ShouldEntityBeCursed(Entity entity, string curseBuffName)
         {
             if (entity == null) return false;
-            if (entity.Rarity == ExileCore.Shared.Enums.MonsterRarity.Rare || entity.Rarity == MonsterRarity.Unique)// || entity.Rarity == ExileCore.Shared.Enums.MonsterRarity.Magic)
+            bool entityIsCorrectRarity = entity.Rarity == ExileCore.Shared.Enums.MonsterRarity.Rare || entity.Rarity == MonsterRarity.Unique;
+            bool entityIsCloseEnough = entity.DistancePlayer < 60;
+            bool entityIsNotAlreadyCursed = Me.entityDoesNotHaveAnyOfBuffs(entity, new List<string>() { curseBuffName }) == true;
+
+            if (entityIsCloseEnough && entityIsCorrectRarity && entityIsNotAlreadyCursed)
             {
-                if (Me.entityDoesNotHaveAnyOfBuffs(entity, new List<string>() { curseBuffName }) == true)
-                {
-                    return true;
-                }
+                return true;
             }
             return false;
         }
@@ -207,15 +208,25 @@ namespace Willplug.BotBehavior
             new Sequence(
                 new Action(delegate
                 {
+                    abilityDesc.leftMouseButtonPressedBeforeAbilityUsage = Input.GetKeyState(Keys.LButton);
+                    Mouse.blockInput(true);
+                    Mouse.LeftMouseUp();
                     abilityDesc.mousePositionBeforeAbilityUsage = Mouse.GetCursorPosition();
                     Mouse.SetCursorPosAndLeftOrRightClick(abilityDesc.locationToUseAbility, 15, clickType: Mouse.MyMouseClicks.NoClick);
+
                     return RunStatus.Success;
                 }),
                     abilityDesc.activationComposite,
-                 // new UseHotkeyAction(WillBot.KeyboardHelper, x => abilityDesc.hotKey),
+                  // new UseHotkeyAction(WillBot.KeyboardHelper, x => abilityDesc.hotKey),
                   new Action(delegate
                   {
+                      Mouse.SetCursorPosAndLeftOrRightClick(abilityDesc.mousePositionBeforeAbilityUsage, 15, clickType: Mouse.MyMouseClicks.NoClick);
                       Mouse.SetCursorPos(abilityDesc.mousePositionBeforeAbilityUsage);
+                      if (abilityDesc.leftMouseButtonPressedBeforeAbilityUsage == true)
+                      {
+                          Mouse.LeftMouseDown();
+                      }
+                      Mouse.blockInput(false);
                       return RunStatus.Success;
                   })
                   ));
@@ -355,7 +366,8 @@ namespace Willplug.BotBehavior
         {
             return new Decorator(delegate
             {
-                if (WillBot.Me.enemies.ClosestMonsterEntity != null && DateTime.Now.Subtract(previousVortexUseTime).TotalMilliseconds > 1050)
+
+                if (WillBot.Me?.enemies?.ClosestMonsterEntity?.DistancePlayer < 80 && DateTime.Now.Subtract(previousVortexUseTime).TotalMilliseconds > 1100)
                 {
                     return true;
                 }
@@ -367,7 +379,7 @@ namespace Willplug.BotBehavior
                         previousVortexUseTime = DateTime.Now;
                         return RunStatus.Success;
                     }),
-                     ComboHotkey(x => Keys.LControlKey, y => Keys.E))
+                     ComboHotkey(x => Keys.LControlKey, y => Keys.M))
 
                );
         }

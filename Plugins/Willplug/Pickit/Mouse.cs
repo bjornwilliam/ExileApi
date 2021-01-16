@@ -250,7 +250,10 @@ namespace Willplug
                 return new SharpDX.Point(point.X, point.Y);
             }
         }
-
+        public static void blockInput(bool block)
+        {
+            BlockInput(block);
+        }
         #region MyFix
 
         private static void SetCursorPosition(float x, float y)
