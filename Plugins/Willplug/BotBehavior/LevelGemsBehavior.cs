@@ -67,14 +67,16 @@ namespace Willplug.BotBehavior
             return new Decorator(x => GetGemsToLevelUp(),
                 new Action(delegate
                 {
+                    Mouse.blockInput(true);
                     InputWrapper.ResetMouseButtons();
                     Thread.Sleep(80);
                     foreach (var rect in gemRectsToLevelUp)
                     {
                         Mouse.SetCursorPosAndLeftOrRightClick(rect, Latency);
                         Thread.Sleep(50);
+                       
                     }
-
+                    Mouse.blockInput(false);
                 })
                 );
 
