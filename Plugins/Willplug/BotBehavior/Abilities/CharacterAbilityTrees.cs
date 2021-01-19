@@ -74,8 +74,8 @@ namespace Willplug.BotBehavior
              new PrioritySelector(
                 //CharAbilities.CreateBerserkComposite(),
                 //CharAbilities.CreateUseFrostbiteComposite()
-                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
-                LevelGemsBehavior.LevelGems()
+                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility)
+                //LevelGemsBehavior.LevelGems()
                 //CharAbilities.CreateUseVortexComposite()
                 //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
 
