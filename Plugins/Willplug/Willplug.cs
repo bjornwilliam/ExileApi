@@ -102,6 +102,7 @@ namespace Willplug
             Input.RegisterKey(Settings.TestKey1);
             Input.RegisterKey(Settings.TestKey2);
             Input.RegisterKey(Settings.TryLootNearbykey);
+            Input.RegisterKey(Settings.SmokeMineMacroActivationKey);
             //BuffTree = BuffBehavior.CreateBerserkerBuffTree();
             //BuffTree = NecroBuffs.CreateNecroBuffTree();
             BuffTree = CharacterAbilityTrees.CreateVortexCharAbilityTree();

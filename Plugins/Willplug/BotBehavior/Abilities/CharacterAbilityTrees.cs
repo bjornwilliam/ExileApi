@@ -21,6 +21,7 @@ namespace Willplug.BotBehavior
 {
     public static class CharacterAbilityTrees
     {
+        private static BuffDebuffAbility enfeebleCurseAbility = new BuffDebuffAbility();
         private static BuffDebuffAbility frostBiteCurseAbility = new BuffDebuffAbility();
         private static BuffDebuffAbility steelSkinAbility = new BuffDebuffAbility();
         static CharacterAbilityTrees()
@@ -30,10 +31,12 @@ namespace Willplug.BotBehavior
             frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
             
             
-            steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.W);
+            steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.H);
             steelSkinAbility.skillCooldownMs = 3000;
 
-
+            enfeebleCurseAbility.buffDebuffName = CharAbilities.enfeebleBuff;
+            enfeebleCurseAbility.minimumIntervalBetweenUsagesMs = 2000;
+            enfeebleCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
 
         }
         public static Composite CreateNecroBuffTree()
@@ -72,14 +75,20 @@ namespace Willplug.BotBehavior
                 return WillBot.Plugin.TreeHelper.CanTickMap();
             },
              new PrioritySelector(
-                //CharAbilities.CreateBerserkComposite(),
-                //CharAbilities.CreateUseFrostbiteComposite()
-                CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility)
-                //LevelGemsBehavior.LevelGems()
-                //CharAbilities.CreateUseVortexComposite()
-                //CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                 //CharAbilities.SmokeMineMacroComposite()
+                 //CharAbilities.CreateBerserkComposite()
+                 //CharAbilities.CreateUseFrostbiteComposite()
+                 //CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
+                 //LevelGemsBehavior.LevelGems()
+                 //CharAbilities.CreateUseVortexComposite(),
+                 //CharAbilities.CreateUseEnduringCryComposite()
+                 //
 
-                ));
+                 CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility),
+                CharAbilities.CreateUseCurseComposite(enfeebleCurseAbility),
+                CharAbilities.CreateUseVortexComposite(),
+                CharAbilities.CreateBerserkComposite()
+                )) ;
 
         }
 
