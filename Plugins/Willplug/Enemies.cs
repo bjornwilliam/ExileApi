@@ -102,7 +102,7 @@ namespace Willplug
 
         private List<Entity> GetNearbyMonsters()
         {
-            return _killableMonsters.Value?.Where(x => x.DistancePlayer < 45)?.ToList() ?? null;
+            return _killableMonsters.Value?.Where(x => x.DistancePlayer < 60)?.ToList() ?? null;
         }
 
 

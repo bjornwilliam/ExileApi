@@ -138,8 +138,10 @@ namespace Willplug.BotBehavior
             float distanceFromMobToCursor = 0;
             var mobScreenPosition = Camera.WorldToScreen(entity.Pos);
             Vector2.DistanceSquared(ref cursorScreenPosition, ref mobScreenPosition, out distanceFromMobToCursor);
-            bool entityIsCloseEnough= distanceFromMobToCursor < 950; //  entity.DistancePlayer < 45;
-
+            bool entityIsCloseEnough= distanceFromMobToCursor < 1100000; //  entity.DistancePlayer < 45;
+            //Console.WriteLine("Distance to mob: " + distanceFromMobToCursor.ToString());
+            //Console.WriteLine("Mob screen pos: " + mobScreenPosition.ToString());
+            //Console.WriteLine("Cursor pos: " + cursorScreenPosition.ToString());
          
             if (entityIsCloseEnough && entityIsCorrectRarity && entityIsNotAlreadyCursed)
             {
@@ -271,7 +273,7 @@ namespace Willplug.BotBehavior
             new Sequence(
                 new Action(delegate
                 {
-                    previousMousePosition = Mouse.GetCursorPosition();
+                    previousMousePosition = Mouse.GetCursorPositionVector();
                     Mouse.SetCursorPosAndLeftOrRightClick(positionToFrostBite, 15, clickType: Mouse.MyMouseClicks.NoClick);
                     return RunStatus.Success;
                 }),
