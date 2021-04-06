@@ -105,7 +105,7 @@ namespace Willplug
             Input.RegisterKey(Settings.SmokeMineMacroActivationKey);
             //BuffTree = BuffBehavior.CreateBerserkerBuffTree();
             //BuffTree = NecroBuffs.CreateNecroBuffTree();
-            BuffTree = CharacterAbilityTrees.CreateVortexCharAbilityTree();
+            BuffTree = CharacterAbilityTrees.CreateToxicRainTree();
             Tree = CreateTree();
             Settings.Enable.OnValueChanged += (sender, b) =>
             {

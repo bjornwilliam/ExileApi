@@ -33,6 +33,8 @@ namespace Willplug.BotBehavior
 
         public bool leftMouseButtonPressedBeforeAbilityUsage = false;
 
+        public int healthPercentageThreshold = 80;
+
 
     }
 }

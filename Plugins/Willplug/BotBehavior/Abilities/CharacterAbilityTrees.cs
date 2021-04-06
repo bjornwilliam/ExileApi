@@ -24,6 +24,8 @@ namespace Willplug.BotBehavior
         private static BuffDebuffAbility enfeebleCurseAbility = new BuffDebuffAbility();
         private static BuffDebuffAbility frostBiteCurseAbility = new BuffDebuffAbility();
         private static BuffDebuffAbility steelSkinAbility = new BuffDebuffAbility();
+        private static BuffDebuffAbility bloodRageAbility = new BuffDebuffAbility();
+
         static CharacterAbilityTrees()
         {
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
@@ -32,12 +34,16 @@ namespace Willplug.BotBehavior
             
             
             steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.H);
-            steelSkinAbility.skillCooldownMs = 3000;
+            steelSkinAbility.skillCooldownMs = 500;
 
             enfeebleCurseAbility.buffDebuffName = CharAbilities.enfeebleBuff;
             enfeebleCurseAbility.minimumIntervalBetweenUsagesMs = 2000;
             enfeebleCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
-
+            
+            
+            bloodRageAbility.buffDebuffName = CharAbilities.bloodRageBuff;
+            bloodRageAbility.minimumIntervalBetweenUsagesMs = 2000;
+            bloodRageAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
         }
         public static Composite CreateNecroBuffTree()
         {
@@ -91,7 +97,30 @@ namespace Willplug.BotBehavior
                 )) ;
 
         }
+        public static Composite CreateToxicRainTree()
+        {
+            return new Decorator(delegate
+            {
+                return WillBot.Plugin.TreeHelper.CanTickMap();
+            },
+             new PrioritySelector(
+                 //CharAbilities.SmokeMineMacroComposite()
+                 //CharAbilities.CreateBerserkComposite()
+                 //CharAbilities.CreateUseFrostbiteComposite()
+                 //CharAbilities.CreateUseCurseComposite(frostBiteCurseAbility),
+                 //LevelGemsBehavior.LevelGems()
+                 //CharAbilities.CreateUseVortexComposite(),
+                 //CharAbilities.CreateUseEnduringCryComposite()
+                 //
 
+                 CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility),
+                 CharAbilities.ActivateBuffIfNotPresent(bloodRageAbility)
+                //CharAbilities.CreateUseCurseComposite(enfeebleCurseAbility),
+                //CharAbilities.CreateUseVortexComposite(),
+                //CharAbilities.CreateBerserkComposite()
+                ));
+
+        }
 
 
     }

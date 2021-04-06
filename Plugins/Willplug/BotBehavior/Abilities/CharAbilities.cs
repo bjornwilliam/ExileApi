@@ -43,6 +43,8 @@ namespace Willplug.BotBehavior
         public static string carrionGolemBuff = "bone_golem_buff";
         public static string bladeVortexCounterBuff = "blade_vortex_counter";
 
+        public static string bloodRageBuff = "blood_rage";
+        public static string immortalCallBuff = "immortal_call";
         public static string enfeebleBuff = "curse_enfeeble";
         public static WillPlayer Me { get => WillBot.Me; }
 
@@ -368,7 +370,7 @@ namespace Willplug.BotBehavior
         {
             return new Decorator(delegate
             {
-                if (Me.isHealthBelowPercentage(70) && DateTime.Now.Subtract(abilityDesc.previousTryToUseTime).TotalMilliseconds > abilityDesc.skillCooldownMs)
+                if (Me.isHealthBelowPercentage(88) && DateTime.Now.Subtract(abilityDesc.previousTryToUseTime).TotalMilliseconds > abilityDesc.skillCooldownMs)
                 {
                     abilityDesc.previousTryToUseTime = DateTime.Now;
                     return true;
@@ -403,6 +405,34 @@ namespace Willplug.BotBehavior
                );
         }
 
+        public static Composite ActivateBuffIfNotPresent(BuffDebuffAbility ability)
+        {
+            return new Decorator(delegate
+            {
+
+                if (WillBot.Me?.enemies?.ClosestMonsterEntity != null && DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs)
+                {
+                    if (Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { ability.buffDebuffName }))
+                    {
+                        ability.previousTryToUseTime = DateTime.Now;
+                        return true;
+                    }
+                }
+                return false;
+            },
+            ability.activationComposite);
+
+              // new Sequence(
+              //     new Action(delegate
+              //     {
+              //         previousVortexUseTime = DateTime.Now;
+              //         return RunStatus.Success;
+              //     }),
+              //      ComboHotkey(x => Keys.LControlKey, y => Keys.M))
+
+              //);
+
+        }
 
         static public Composite CreateMoltenShellComposite()
         {
