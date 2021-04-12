@@ -63,6 +63,16 @@ namespace ExileCore.PoEMemory
             }
         }
 
+        public virtual string LongText
+        {
+            get
+            {
+                var text = AsObject<EntityLabel>().Text3;
+                if (!string.IsNullOrWhiteSpace(text)) return text.Replace("\u00A0\u00A0\u00A0\u00A0", "{{icon}}");
+                return null;
+            }
+        }
+
         /*public virtual string Text
         {
             get
@@ -223,6 +233,30 @@ namespace ExileCore.PoEMemory
         public Element GetChildAtIndex(int index)
         {
             return index >= ChildCount ? null : GetObject<Element>(M.Read<long>(Address + ChildStartOffset, index * 8));
+        }
+        public void GetAllStrings(List<string> res) {
+            if(Text?.Length > 0) {
+                res.Add(Text);
+            }
+            foreach(var ch in Children)
+                ch.GetAllStrings(res);
+        }
+        public void GetAllTextElements(List<Element> res) {
+            if(Text?.Length > 0) {
+                res.Add(this);
+            }
+            foreach(var ch in Children)
+                ch.GetAllTextElements(res);
+        }
+        public Element GetElementByString(string str) {
+            if(Text == str) {
+                return this;
+            }
+            foreach(var child in Children) {
+                var element = child.GetElementByString(str);
+                if(element != null) return element;
+            }
+            return null;
         }
     }
 }

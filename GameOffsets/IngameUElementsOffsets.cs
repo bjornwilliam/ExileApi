@@ -22,8 +22,8 @@ namespace GameOffsets
         [FieldOffset(0x480)] public long QuestTracker;
         //[FieldOffset(0x488)] public long BenchCraftNewRecipeNotifyPanel;
         //[FieldOffset(0x4A8)] public long HideoutUnlockNotifyPanel;
-        [FieldOffset(0x4E8)] public long OpenLeftPanel;
-        [FieldOffset(0x4F0)] public long OpenRightPanel;
+        [FieldOffset(0x4F8)] public long OpenLeftPanel;
+        [FieldOffset(0x500)] public long OpenRightPanel;
         //[FieldOffset(0x4F8)] public long OpenLeftPanel2; // Holds same address as above.
         //[FieldOffset(0x500)] public long OpenRightPanel2; // Holds same address as above.
         //[FieldOffset(0x518)] public long MtxShopPanel;
@@ -68,19 +68,19 @@ namespace GameOffsets
         //[FieldOffset(0x6D8)] public long FriendNoteEditorPanel;
         //[FieldOffset(0x6E0)] public long BetaLadderScreen;
         //[FieldOffset(0x6F0)] public long DivinationCardTradeScreen;
-        [FieldOffset(0x6F8)] public long IncursionWindow;
+        [FieldOffset(0x708)] public long IncursionWindow;
         //[FieldOffset(0x700)] public long IncursionCorruptionAltarPanel;
         //[FieldOffset(0x708)] public long IncursionAltarOfSacrificePanel;
         //[FieldOffset(0x710)] public long IncursionLapidaryLensPanel;
         //[FieldOffset(0x718)] public long NikoSubterraneanChartPanel; // This is the subterrranean chart when talking to niko.
         [FieldOffset(0x720)] public long DelveWindow;  // This is the subterranean chart using in the mine.
-		[FieldOffset(0x728)] public long ZanaMissionChoice;
+		    [FieldOffset(0x728)] public long ZanaMissionChoice;
         //[FieldOffset(0x730)] public long SupportGemExamplesPanel;
         //[FieldOffset(0x738)] public long JunSyndicateInvestigationPanel; // this is the murder board when talking to Jun.
         [FieldOffset(0x740)] public long BetrayalWindow; // this is the murder board shown during Betrayal encounter.
         //[FieldOffset(0x748)] public long HelenaHideoutSelectPanel;
         [FieldOffset(0x750)] public long CraftBenchWindow;
-		[FieldOffset(0x758)] public long UnveilWindow;
+		    [FieldOffset(0x758)] public long UnveilWindow;
         //[FieldOffset(0x760)] public long BetrayalTrappedStashPanel;
         //[FieldOffset(0x768)] public long BetrayalTinysTrialPanel;
         //[FieldOffset(0x770)] public long BetrayalSyndicateCraftingBenchPanel;
@@ -107,6 +107,7 @@ namespace GameOffsets
         //[FieldOffset(0x8E0)] public long SummonTanePanel;
         //[FieldOffset(0x8F8)] public long HideoutMusicPanel;
         //[FieldOffset(0x908)] public long ZoneTravelNotifyPanel;
+<<<<<<< HEAD
 
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
@@ -118,6 +119,9 @@ namespace GameOffsets
 
          [FieldOffset(0x8A0)] public long MetamorphisActivateThaneButton;// Outdated (as of 3.12)
         [FieldOffset(0x8D8)] public long GemLvlUpPanel;
+=======
+        [FieldOffset(0x990)] public long GemLvlUpPanel;
+>>>>>>> upstream_master
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
         //[FieldOffset(0x9C8)] public long ZeroMustSurvivePanel;
@@ -128,7 +132,16 @@ namespace GameOffsets
 
         [FieldOffset(0x8A8)] public long InvitesPanel;
         [FieldOffset(0xA10)] public long ItemOnGroundTooltip;
+<<<<<<< HEAD
 		[FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
         [FieldOffset(0xaf8)] public long MapTabWindow; // Outdated (as of 3.12)
+=======
+		    [FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
+        [FieldOffset(0x7E8)] public long RitualWindow;
+        [FieldOffset(0x7B0)] public long HarvestWindow;
+        [FieldOffset(0x7B8)] public long HorticraftWindow;
+	      [FieldOffset(0x818)] public long DelveDarkness; 
+
+>>>>>>> upstream_master
     }
 }
