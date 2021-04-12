@@ -174,15 +174,7 @@ namespace Willplug.Navigation
             var rows = gameController.IngameState.Data.CurrentTerrainData.Rows;
             var cols = gameController.IngameState.Data.CurrentTerrainData.Columns;
             var bytesPerRow = gameController.IngameState.Data.CurrentTerrainData.BytesPerRow;
-            var meleeData = gameController.IngameState.Data.CurrentTerrainData.MeleeLayerPathfindinData;
-
-            //var rows = gameController.IngameState.Data.Terrain.NumRows;
-            //var cols = gameController.IngameState.Data.Terrain.NumCols;
-            //var bytesPerRow = gameController.IngameState.Data.Terrain.BytesPerRow;
-
-            //var meleeData = gameController.IngameState.Data.Terrain.LayerMelee.
-            //var meleeData = gameController.IngameState.Data.Terrain.LayerMelee;
-            
+            var meleeData = gameController.IngameState.Data.CurrentTerrainData.MeleeData;
 
             lock (gridDataLock)
             {

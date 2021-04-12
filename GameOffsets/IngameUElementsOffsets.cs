@@ -107,7 +107,6 @@ namespace GameOffsets
         //[FieldOffset(0x8E0)] public long SummonTanePanel;
         //[FieldOffset(0x8F8)] public long HideoutMusicPanel;
         //[FieldOffset(0x908)] public long ZoneTravelNotifyPanel;
-<<<<<<< HEAD
 
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
@@ -118,10 +117,9 @@ namespace GameOffsets
         //[FieldOffset(0xA00)] public long HeistNotifyPanel;
 
          [FieldOffset(0x8A0)] public long MetamorphisActivateThaneButton;// Outdated (as of 3.12)
-        [FieldOffset(0x8D8)] public long GemLvlUpPanel;
-=======
+
         [FieldOffset(0x990)] public long GemLvlUpPanel;
->>>>>>> upstream_master
+
         //[FieldOffset(0x9B8)] public long RampagePanel;
         //[FieldOffset(0x9C0)] public long IncursionProgressPanel;
         //[FieldOffset(0x9C8)] public long ZeroMustSurvivePanel;
@@ -132,16 +130,16 @@ namespace GameOffsets
 
         [FieldOffset(0x8A8)] public long InvitesPanel;
         [FieldOffset(0xA10)] public long ItemOnGroundTooltip;
-<<<<<<< HEAD
-		[FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
+
+
         [FieldOffset(0xaf8)] public long MapTabWindow; // Outdated (as of 3.12)
-=======
+
 		    [FieldOffset(0xAA0)] public long MapTabWindowStartPtr; //TODO: Find out what exactly this is...
         [FieldOffset(0x7E8)] public long RitualWindow;
         [FieldOffset(0x7B0)] public long HarvestWindow;
         [FieldOffset(0x7B8)] public long HorticraftWindow;
 	      [FieldOffset(0x818)] public long DelveDarkness; 
 
->>>>>>> upstream_master
+
     }
 }
