@@ -8,6 +8,11 @@ namespace Willplug.AutoLeveling
 {
     public class Objectives
     {
+        /* Overall objectives + state + detecting correct sub objective to manage
+         * 
+         * 
+         * 
+         */
 
 
 
