@@ -43,12 +43,12 @@ namespace ExileCore.PoEMemory.MemoryObjects
             _hiddenCheckCache = new LatancyCache<bool>(() =>
             {
                 if (IsValid)
-                    isHidden = HasComponent<Life>() && GetComponent<Life>().HasBuff("hidden_monster");
+                    isHidden = HasComponent<Buffs>() && GetComponent<Buffs>().HasBuff("hidden_monster");
 
                 return isHidden;
             }, 50);
 
-            buffCache = this.ValidCache(() => GetComponent<Life>()?.Buffs);
+            buffCache = this.ValidCache(() => GetComponent<Buffs>()?.BuffsList);
         }
 
         public static Entity Player { get; set; }
@@ -383,8 +383,8 @@ namespace ExileCore.PoEMemory.MemoryObjects
             }
         }
 
-        public uint Id => (uint) (_id = _id ?? M.Read<uint>(Address + 0x58));
-        public uint InventoryId => (uint) (_inventoryId = _inventoryId ?? M.Read<uint>(Address + 0x68));
+        public uint Id => (uint) (_id = _id ?? M.Read<uint>(Address + 0x60));
+        public uint InventoryId => (uint) (_inventoryId = _inventoryId ?? M.Read<uint>(Address + 0x70));
 
         //public bool IsValid => M.Read<int>(EntityOffsets.Head.MainObject+0x18,0) == 0x65004D;
         public Dictionary<string, long> CacheComp => _cacheComponents2 ?? (_cacheComponents2 = GetComponents());

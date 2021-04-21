@@ -41,6 +41,7 @@
     <Compile Include="ActorDeployedObject.cs" />
     <Compile Include="BaseComponentOffsets.cs" />
     <Compile Include="BuffOffsets.cs" />
+    <Compile Include="BuffsOffsets.cs" />
     <Compile Include="BuffStringOffsets.cs" />
     <Compile Include="CameraOffsets.cs" />
     <Compile Include="ChestComponentOffsets.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="ServerInventoryOffsets.cs" />
     <Compile Include="ServerStashTabOffsets.cs" />
     <Compile Include="SkillGemOffsets.cs" />
+    <Compile Include="SkillUiStateOffsets.cs" />
     <Compile Include="StateMachineComponentOffsets.cs" />
     <Compile Include="StatsComponentOffsets.cs" />
     <Compile Include="StrongboxChestComponentData.cs" />
