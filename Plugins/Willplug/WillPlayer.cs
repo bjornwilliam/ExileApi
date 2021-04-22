@@ -419,18 +419,23 @@ namespace Willplug
             if (buffs == null || buffs.Count == 0)
                 return false;
 
-            var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            var playerBuffs = playerLife.Buffs;
-
+            var playerBuffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
             if (playerBuffs == null)
                 return false;
 
+            //   bool hasAnybuff = false;
             foreach (var buff in buffs)
             {
-                if (!String.IsNullOrEmpty(buff) && !playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+
+                if (playerBuffs.HasBuff(buff ?? "") == false)
                 {
                     return false;
+                    //hasAnybuff = true;
                 }
+                //if (!String.IsNullOrEmpty(buff) && !playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //{
+                //    return false;
+                //}
             }
             return true;
         }
@@ -450,31 +455,36 @@ namespace Willplug
             if (buffs == null || buffs.Count == 0)
                 return true;
 
-            var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            var playerBuffs = playerLife.Buffs;
-
+            var playerBuffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
             if (playerBuffs == null)
                 return true;
 
+
             foreach (var buff in buffs)
             {
-                if (!String.IsNullOrEmpty(buff) && playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                if (playerBuffs.HasBuff(buff ?? "") == true)
                 {
                     return false;
                 }
+                //if (!String.IsNullOrEmpty(buff) && playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //{
+                //    return false;
+                //}
             }
             return true;
         }
 
         public int GetChargesForBuff(string nameOfBuff)
         {
-            var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            var playerBuffs = playerLife.Buffs;
+            //var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
+           // var playerBuffs = playerLife.Buffs;
+            var playerBuffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
 
             if (playerBuffs == null || String.IsNullOrEmpty(nameOfBuff))
                 return 0;
 
-            var buff = playerBuffs.Find(x => !String.IsNullOrWhiteSpace(x.Name) && nameOfBuff.StartsWith(x.Name));
+       
+            var buff = playerBuffs.BuffsList.Find(x => !String.IsNullOrWhiteSpace(x.Name) && nameOfBuff.StartsWith(x.Name));
             return buff?.Charges ?? 0;
         }
 
@@ -491,12 +501,12 @@ namespace Willplug
             if (buffs == null || buffs.Count == 0)
                 return true;
             var entityLife = entity.GetComponent<Life>();
-            var entityBuffs = entityLife.Buffs;
-            if (entityBuffs == null || entityBuffs.Count == 0) return true;
+            var entityBuffs = entity.GetComponent<Buffs>();
+            if (entityBuffs == null || entityBuffs.BuffsList.Count == 0) return true;
 
             foreach (var buff in buffs)
             {
-                if (!String.IsNullOrEmpty(buff) && entityBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                if (!String.IsNullOrEmpty(buff) && entityBuffs.BuffsList.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
                 {
                     return false;
                 }

@@ -405,8 +405,10 @@ namespace TreeRoutine.Routine.BasicFlaskRoutine
         {
             return new Decorator((x =>
             {
-                var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
-                foreach (var buff in buffs)
+                //var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
+                var buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
+
+                foreach (var buff in buffs.BuffsList)
                 {
                     if (float.IsInfinity(buff.Timer) && buff.Name.Contains("curse_") == false)
                         continue;

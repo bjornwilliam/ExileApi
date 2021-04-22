@@ -18,7 +18,7 @@ namespace Willplug.Combat.Core
         }
 
         public static Composite Buff(string spell, Selection<bool> reqs = null)
-        {
+        {       
             return
                 new Decorator(
                     ret => (reqs == null || reqs(ret)) && !Me.playerHasBuffs( new List<string> { spell }),

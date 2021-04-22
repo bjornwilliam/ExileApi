@@ -34,6 +34,8 @@ namespace Willplug.BotBehavior
         public static DateTime lastBoneOfferingUseTime = DateTime.Now;
         public static int minimumBoneOfferingIntervalMs = 7300;
         public static string boneOfferingBuff = "offering_defensive";
+        public static string fleshOfferingBuff = "offering_offensive";
+
         public static string skitterBotsBuff = "skitterbots_buff";
         public static string hatredBuff = "player_aura_cold_damage";
 
@@ -300,6 +302,31 @@ namespace Willplug.BotBehavior
             },
             new Sequence(
                 UseDesecrate(),
+                new Action(delegate
+                {
+                    lastBoneOfferingUseTime = DateTime.Now;
+                    return RunStatus.Success;
+                }),
+                new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.A)));
+        }
+        public static Composite CreateUseFleshOfferingComposite()
+        {
+            return new Decorator(delegate
+            {
+                if (WillBot.Me.enemies.ClosestMonsterEntity != null && (/*DateTime.Now.Subtract(lastBoneOfferingUseTime).TotalMilliseconds > 9000 ||*/ Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { fleshOfferingBuff }) == true))
+                {
+                    var corpses = Me.enemies.GetCorpsesForDesecrate();
+                    if (corpses.Item1 > 2 )
+                    {
+                        return true;
+                    }
+    
+                }
+                return false;
+               
+            },
+            new Sequence(
+                //UseDesecrate(),
                 new Action(delegate
                 {
                     lastBoneOfferingUseTime = DateTime.Now;

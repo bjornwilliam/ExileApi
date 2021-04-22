@@ -56,18 +56,23 @@ namespace TreeRoutine.DefaultBehaviors.Helpers
             if (buffs == null || buffs.Count == 0)
                 return false;
 
-            var playerLife = Core.GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            var playerBuffs = playerLife.Buffs;
-
+            var playerBuffs = Core.GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
             if (playerBuffs == null)
                 return false;
 
+            //   bool hasAnybuff = false;
             foreach (var buff in buffs)
             {
-                if (!String.IsNullOrEmpty(buff) && !playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+
+                if (playerBuffs.HasBuff(buff ?? "") == false)
                 {
                     return false;
+                    //hasAnybuff = true;
                 }
+                //if (!String.IsNullOrEmpty(buff) && !playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //{
+                //    return false;
+                //}
             }
             return true;
         }
@@ -87,18 +92,21 @@ namespace TreeRoutine.DefaultBehaviors.Helpers
             if (buffs == null || buffs.Count == 0)
                 return true;
 
-            var playerLife = Core.GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            var playerBuffs = playerLife.Buffs;
-
+            var playerBuffs = Core.GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
             if (playerBuffs == null)
                 return true;
 
+
             foreach (var buff in buffs)
             {
-                if (!String.IsNullOrEmpty(buff) && playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                if (playerBuffs.HasBuff(buff ?? "") == true)
                 {
                     return false;
                 }
+                //if (!String.IsNullOrEmpty(buff) && playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //{
+                //    return false;
+                //}
             }
             return true;
         }

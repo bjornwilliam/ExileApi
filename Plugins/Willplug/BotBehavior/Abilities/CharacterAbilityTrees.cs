@@ -70,6 +70,19 @@ namespace Willplug.BotBehavior
                 
                 );
         }
+        public static Composite CreateBamaBuffTree()
+        {
+            return new Decorator(delegate
+            {
+                return WillBot.Plugin.TreeHelper.CanTickMap();
+            },
+             new PrioritySelector(
+                    CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                    // Create snipers mark
+                    // Create Flesh offering
+                ));
+        }
+
 
 
 
