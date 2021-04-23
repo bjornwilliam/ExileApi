@@ -469,6 +469,14 @@ namespace Willplug.BotBehavior
                ));
         }
 
+   //     public static Composite CreateUseWarcryToGenerateRageComposite()
+   //     {
+   //         return new Decorator(x => Me.playerHasBuffs(
+   // new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { moltenShellShieldBuff }),
+   //  new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.A)
+   //));
+
+   //     }
         public static Composite ActivateAura(BuffNameDelegate buffNameDelegate, BuffHotkeyPrefix buffHotkeyPrefix, BuffHotkeySuffix buffHotkeySuffix)
         {
             return new Decorator(delegate (object context)
