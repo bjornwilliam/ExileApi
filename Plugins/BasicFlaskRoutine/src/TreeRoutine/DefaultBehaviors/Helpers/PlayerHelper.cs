@@ -67,15 +67,15 @@ namespace TreeRoutine.DefaultBehaviors.Helpers
             foreach (var buff in buffs)
             {
 
-                if (playerBuffs.HasBuff(buff ?? "") == false)
-                {
-                    return false;
-                    //hasAnybuff = true;
-                }
-                //if (!String.IsNullOrEmpty(buff) && !playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //if (playerBuffs.HasBuff(buff ?? "") == false)
                 //{
                 //    return false;
+                //    //hasAnybuff = true;
                 //}
+                if (!String.IsNullOrEmpty(buff) && !playerBuffs.BuffsList.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                {
+                    return false;
+                }
             }
             return true;
             //return hasAnybuff;
@@ -103,14 +103,14 @@ namespace TreeRoutine.DefaultBehaviors.Helpers
 
             foreach (var buff in buffs)
             {
-                if (playerBuffs.HasBuff(buff ?? "") == true)
-                {
-                    return false;
-                }
-                //if (!String.IsNullOrEmpty(buff) && playerBuffs.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                //if (playerBuffs.HasBuff(buff ?? "") == true)
                 //{
                 //    return false;
                 //}
+                if (!String.IsNullOrEmpty(buff) && playerBuffs.BuffsList.Any(x => !String.IsNullOrWhiteSpace(x.Name) && buff.StartsWith(x.Name)))
+                {
+                    return false;
+                }
             }
             return true;
         }

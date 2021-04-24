@@ -283,7 +283,7 @@ namespace ExileCore.PoEMemory.MemoryObjects
 
                         foreach (var child in element.Children)
                         {
-                            if (child.Text.Contains("Act 9"))
+                            if (child?.Text?.Contains("Act 9") == true)
                             {
                                 return child;
                             }
@@ -310,7 +310,7 @@ namespace ExileCore.PoEMemory.MemoryObjects
                     {
                         foreach (var child in element.Children)
                         {
-                            if (child.Text.Contains("Part 2"))
+                            if (child?.Text?.Contains("Part 2") == true)
                             {
                                 return child;
                             }

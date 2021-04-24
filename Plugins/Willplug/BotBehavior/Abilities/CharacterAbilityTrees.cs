@@ -26,6 +26,9 @@ namespace Willplug.BotBehavior
         private static BuffDebuffAbility steelSkinAbility = new BuffDebuffAbility();
         private static BuffDebuffAbility bloodRageAbility = new BuffDebuffAbility();
 
+        private static BuffDebuffAbility generateRageAbility = new BuffDebuffAbility();
+
+
         static CharacterAbilityTrees()
         {
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
@@ -44,6 +47,10 @@ namespace Willplug.BotBehavior
             bloodRageAbility.buffDebuffName = CharAbilities.bloodRageBuff;
             bloodRageAbility.minimumIntervalBetweenUsagesMs = 2000;
             bloodRageAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
+            
+            //generateRageAbility.buffDebuffName = CharAbilities.frostbiteBuff;
+            generateRageAbility.minimumIntervalBetweenUsagesMs = 2000;
+            //generateRageAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
         }
         public static Composite CreateNecroBuffTree()
         {
@@ -84,7 +91,17 @@ namespace Willplug.BotBehavior
         }
 
 
+        public static Composite CreateRageWarriorBuffTree()
+        {
 
+            return new Decorator(delegate
+            {
+                return WillBot.Plugin.TreeHelper.CanTickMap();
+            },
+              new PrioritySelector(
+                  CharAbilities.CreateUseWarcryToGenerateRageComposite(generateRageAbility)
+                 ));
+        }
 
 
         public static Composite CreateVortexCharAbilityTree()

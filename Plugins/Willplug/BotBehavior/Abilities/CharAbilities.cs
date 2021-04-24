@@ -48,6 +48,8 @@ namespace Willplug.BotBehavior
         public static string bloodRageBuff = "blood_rage";
         public static string immortalCallBuff = "immortal_call";
         public static string enfeebleBuff = "curse_enfeeble";
+        public static string soulGainPreventionBuff = "cannot_gain_souls";
+        //player stats key : CurrentRage
         public static WillPlayer Me { get => WillBot.Me; }
 
         public static Camera Camera => WillBot.gameController.IngameState.Camera;
@@ -142,11 +144,11 @@ namespace Willplug.BotBehavior
             float distanceFromMobToCursor = 0;
             var mobScreenPosition = Camera.WorldToScreen(entity.Pos);
             Vector2.DistanceSquared(ref cursorScreenPosition, ref mobScreenPosition, out distanceFromMobToCursor);
-            bool entityIsCloseEnough= distanceFromMobToCursor < 1100000; //  entity.DistancePlayer < 45;
-            //Console.WriteLine("Distance to mob: " + distanceFromMobToCursor.ToString());
-            //Console.WriteLine("Mob screen pos: " + mobScreenPosition.ToString());
-            //Console.WriteLine("Cursor pos: " + cursorScreenPosition.ToString());
-         
+            bool entityIsCloseEnough = distanceFromMobToCursor < 1100000; //  entity.DistancePlayer < 45;
+                                                                          //Console.WriteLine("Distance to mob: " + distanceFromMobToCursor.ToString());
+                                                                          //Console.WriteLine("Mob screen pos: " + mobScreenPosition.ToString());
+                                                                          //Console.WriteLine("Cursor pos: " + cursorScreenPosition.ToString());
+
             if (entityIsCloseEnough && entityIsCorrectRarity && entityIsNotAlreadyCursed)
             {
                 return true;
@@ -212,7 +214,7 @@ namespace Willplug.BotBehavior
                 var ret = TryFindEntityToCurse(Me.enemies.NearbyMonsters, abilityDesc.buffDebuffName, Mouse.GetCursorPosition());
                 if (ret.Item1 == true)
                 {
-                   // var worldCoords = ret.Item2;
+                    // var worldCoords = ret.Item2;
                     //var mobScreenCoords = Camera.WorldToScreen(worldCoords);
                     //abilityDesc.locationToUseAbility = mobScreenCoords;
                     return true;
@@ -316,14 +318,14 @@ namespace Willplug.BotBehavior
                 if (WillBot.Me.enemies.ClosestMonsterEntity != null && (/*DateTime.Now.Subtract(lastBoneOfferingUseTime).TotalMilliseconds > 9000 ||*/ Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { fleshOfferingBuff }) == true))
                 {
                     var corpses = Me.enemies.GetCorpsesForDesecrate();
-                    if (corpses.Item1 > 2 )
+                    if (corpses.Item1 > 2)
                     {
                         return true;
                     }
-    
+
                 }
                 return false;
-               
+
             },
             new Sequence(
                 //UseDesecrate(),
@@ -449,15 +451,15 @@ namespace Willplug.BotBehavior
             },
             ability.activationComposite);
 
-              // new Sequence(
-              //     new Action(delegate
-              //     {
-              //         previousVortexUseTime = DateTime.Now;
-              //         return RunStatus.Success;
-              //     }),
-              //      ComboHotkey(x => Keys.LControlKey, y => Keys.M))
+            // new Sequence(
+            //     new Action(delegate
+            //     {
+            //         previousVortexUseTime = DateTime.Now;
+            //         return RunStatus.Success;
+            //     }),
+            //      ComboHotkey(x => Keys.LControlKey, y => Keys.M))
 
-              //);
+            //);
 
         }
 
@@ -469,14 +471,89 @@ namespace Willplug.BotBehavior
                ));
         }
 
-   //     public static Composite CreateUseWarcryToGenerateRageComposite()
-   //     {
-   //         return new Decorator(x => Me.playerHasBuffs(
-   // new Decorator(x => Me.playerDoesNotHaveAnyOfBuffs(new List<string>() { moltenShellShieldBuff }),
-   //  new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.A)
-   //));
+        public static Composite CreateUseWarcryToGenerateRageComposite(BuffDebuffAbility ability)
+        {
+            return new Decorator(delegate (object context)
+            {
+                int currentRage = 0;
+                bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
+                bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
+                bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
+                if (currentRage < 25 && canUse == true && hasSoulGainPrevention == false)
+                {
+                    ability.previousTryToUseTime = DateTime.Now;
+                    return true;
+                }
+                return false;
+            },
 
-   //     }
+    new Action(delegate (object context)
+    {
+        try
+        {
+            // If 
+            Mouse.blockInput(true);
+            Mouse.RightMouseUp();
+            var itemBeforeSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+
+
+            InputWrapper.KeyPress(Keys.X);
+            Stopwatch elapsed = new Stopwatch();
+            elapsed.Restart();
+            while (true)
+            {
+                var actorSkills = WillBot.gameController.Player.GetComponent<Actor>().ActorSkills;
+                string skillToCheckFor = "IntimidatingCry";
+                var foundSomething = actorSkills.Where((x) => x.Name == skillToCheckFor);
+
+                var itemAfterSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+
+                if (itemAfterSwap?.Metadata != null && itemAfterSwap.Metadata != itemBeforeSwap.Metadata)
+                {
+                    break;
+                }
+                if (elapsed.ElapsedMilliseconds > 500)
+                {
+                    return RunStatus.Failure;
+                }
+                Thread.Sleep(1);
+            }
+            Thread.Sleep(70);
+            InputWrapper.KeyPress(Keys.A);
+            Thread.Sleep(70);           
+            while (true)
+            {
+                InputWrapper.KeyPress(Keys.X);
+
+                while (true)
+                {
+                    var itemAfterSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+                    if (itemAfterSwap?.Metadata != null && itemAfterSwap.Metadata == itemBeforeSwap.Metadata)
+                    {
+                        Console.WriteLine("Got different meta data weapon swap back");
+                        return RunStatus.Failure;
+                    }
+                    if (elapsed.ElapsedMilliseconds > 50)
+                    {
+                        Console.WriteLine("timed out in waiting for weapon swap back");
+                        break;
+                    }
+                }
+            }
+
+            Mouse.blockInput(false);
+            return RunStatus.Failure;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            Mouse.blockInput(false);
+            return RunStatus.Failure;
+        }
+    }));
+        }
+
+
         public static Composite ActivateAura(BuffNameDelegate buffNameDelegate, BuffHotkeyPrefix buffHotkeyPrefix, BuffHotkeySuffix buffHotkeySuffix)
         {
             return new Decorator(delegate (object context)
