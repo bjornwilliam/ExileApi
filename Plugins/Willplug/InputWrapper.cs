@@ -41,7 +41,7 @@ namespace Willplug
         public static void KeyPress(Keys key)
         {
             Input.KeyDown(key);
-            Thread.Sleep(2);
+            Thread.Sleep(1);
             Input.KeyUp(key);
         }
 

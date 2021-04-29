@@ -34,22 +34,22 @@ namespace Willplug.BotBehavior
             frostBiteCurseAbility.buffDebuffName = CharAbilities.frostbiteBuff;
             frostBiteCurseAbility.minimumIntervalBetweenUsagesMs = 2000;
             frostBiteCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
-            
-            
+
+
             steelSkinAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.H);
             steelSkinAbility.skillCooldownMs = 500;
 
             enfeebleCurseAbility.buffDebuffName = CharAbilities.enfeebleBuff;
             enfeebleCurseAbility.minimumIntervalBetweenUsagesMs = 2000;
             enfeebleCurseAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
-            
-            
+
+
             bloodRageAbility.buffDebuffName = CharAbilities.bloodRageBuff;
             bloodRageAbility.minimumIntervalBetweenUsagesMs = 2000;
             bloodRageAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
-            
+
             //generateRageAbility.buffDebuffName = CharAbilities.frostbiteBuff;
-            generateRageAbility.minimumIntervalBetweenUsagesMs = 2000;
+            generateRageAbility.minimumIntervalBetweenUsagesMs = 1000;
             //generateRageAbility.activationComposite = CharAbilities.ComboHotkey(x => Keys.LControlKey, x => Keys.Q);
         }
         public static Composite CreateNecroBuffTree()
@@ -74,7 +74,7 @@ namespace Willplug.BotBehavior
                 CharAbilities.ActivateAura(x => CharAbilities.skitterBotsBuff, x => Keys.LControlKey, x => Keys.R),
                 CharAbilities.ActivateAura(x => CharAbilities.hatredBuff, x => Keys.LControlKey, x => Keys.H),
                 CharAbilities.ActivateAura(x => CharAbilities.carrionGolemBuff, x => Keys.None, x => Keys.W)
-                
+
                 );
         }
         public static Composite CreateBamaBuffTree()
@@ -85,8 +85,8 @@ namespace Willplug.BotBehavior
             },
              new PrioritySelector(
                     CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
-                    // Create snipers mark
-                    // Create Flesh offering
+                // Create snipers mark
+                // Create Flesh offering
                 ));
         }
 
@@ -99,7 +99,13 @@ namespace Willplug.BotBehavior
                 return WillBot.Plugin.TreeHelper.CanTickMap();
             },
               new PrioritySelector(
-                  CharAbilities.CreateUseWarcryToGenerateRageComposite(generateRageAbility)
+                  CharAbilities.CreatePFRageComposite(generateRageAbility),
+                  CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                  // CharAbilities.ActivateBuffIfNotPresent(bloodRageAbility)
+               //CharAbilities.CreateBerserkComposite()
+                 // CharAbilities.CreateUseWarcryToGenerateRageCompositeWithoutWeaponSwap(generateRageAbility)
+                 //CharAbilities.CreateUseWarcryToGenerateRageComposite(generateRageAbility),
+                 //CharAbilities.SwapBackToMainWeaponSet()
                  ));
         }
 
@@ -124,7 +130,7 @@ namespace Willplug.BotBehavior
                 CharAbilities.CreateUseCurseComposite(enfeebleCurseAbility),
                 CharAbilities.CreateUseVortexComposite(),
                 CharAbilities.CreateBerserkComposite()
-                )) ;
+                ));
 
         }
         public static Composite CreateToxicRainTree()

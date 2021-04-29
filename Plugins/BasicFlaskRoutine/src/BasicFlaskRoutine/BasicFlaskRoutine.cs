@@ -279,6 +279,29 @@ namespace TreeRoutine.Routine.BasicFlaskRoutine
                         if (monsterLife.HPPercentage > 0.995)
                             continue;
                     }
+                    bool isDamageable = true;
+                    Stats monsterStats = null;
+                    try
+                    {
+                        monsterStats = monster.GetComponent<Stats>();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed while getting component stats in checking for entity killable");
+                    }
+                    if (monsterStats != null)
+                    {
+                        int cannotBeDamagedNumber = -1;
+                        monsterStats.StatDictionary.TryGetValue(GameStat.CannotBeDamaged, out cannotBeDamagedNumber);
+                        if (cannotBeDamagedNumber == 1)
+                        {
+                            isDamageable = false;
+                        }
+                    }
+                    if (isDamageable == false)
+                    {
+                        continue;
+                    }
 
                     var monsterPosition = monster.Pos;
 

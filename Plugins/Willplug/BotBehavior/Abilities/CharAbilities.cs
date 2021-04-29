@@ -471,6 +471,149 @@ namespace Willplug.BotBehavior
                ));
         }
 
+        public static Composite SwapBackToMainWeaponSet()
+        {
+            return new Decorator(delegate (object context)
+            {
+                int offHandWeaponType = 0;
+                WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponType);
+                if (offHandWeaponType == 13)
+                {
+                    return true;
+                }
+                return false;
+            },
+
+new Action(delegate (object context)
+{
+
+    Mouse.blockInput(true);
+    InputWrapper.KeyPress(Keys.X);
+    Mouse.blockInput(false);
+    return RunStatus.Failure;
+}));
+        }
+
+    //    public static Composite CreateUseWarcryToGenerateRageComposite(BuffDebuffAbility ability)
+    //    {
+    //        return new Decorator(delegate (object context)
+    //        {
+    //            int currentRage = 0;
+    //            bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
+    //            bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
+    //            bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
+
+    //            int offHandWeaponType = 0;
+    //            WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponType);
+    //            if (currentRage < 25 && canUse == true && hasSoulGainPrevention == false && offHandWeaponType != 13)
+    //            {
+    //                ability.previousTryToUseTime = DateTime.Now;
+    //                return true;
+    //            }
+    //            return false;
+    //        },
+
+    //new Action(delegate (object context)
+    //{
+    //    try
+    //    {
+    //        Mouse.blockInput(true);
+    //        Mouse.RightMouseUp();
+
+    //        var itemBeforeSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+    //        int offHandWeaponTypeBeforeSwap = 0;
+    //        WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponTypeBeforeSwap);
+
+    //        InputWrapper.KeyPress(Keys.X);
+    //        Stopwatch elapsed = new Stopwatch();
+    //        elapsed.Restart();
+    //        while (true)
+    //        {
+    //            int offHandWeaponTypeAfterSwap = 0;
+    //            bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponTypeAfterSwap);
+    //            if (didGetValue && offHandWeaponTypeAfterSwap != offHandWeaponTypeBeforeSwap)
+    //            {
+    //                break;
+    //            }
+    //            if (elapsed.ElapsedMilliseconds > 250)
+    //            {
+    //                Console.WriteLine("Time out in upper weapon swap TOP");
+    //                Mouse.blockInput(false);
+    //                return RunStatus.Failure;
+    //            }
+    //            Thread.Sleep(4);
+    //        }
+    //        bool activatedWarcry = false;
+    //        while (true)
+    //        {
+    //            if (activatedWarcry == true)
+    //            {
+    //                break;
+    //            }
+    //            InputWrapper.KeyPress(Keys.A);
+    //            elapsed.Restart();
+    //            while (true)
+    //            {
+    //                int currentRage = 0;
+    //                bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
+    //                if (currentRage > 25)
+    //                {
+    //                    activatedWarcry = true;
+    //                    break;
+    //                }
+    //                if (elapsed.ElapsedMilliseconds > 50)
+    //                {
+    //                    break;
+    //                }
+    //                Thread.Sleep(2);
+    //            }
+    //            Thread.Sleep(40);
+    //        }
+    //        //Thread.Sleep(100);
+    //        //Console.WriteLine("Pressing A");
+    //        //InputWrapper.KeyPress(Keys.A);
+    //        //Thread.Sleep(70);
+    //        //while (true)
+    //        //{
+
+    //        //    InputWrapper.KeyPress(Keys.X);
+    //        //    elapsed.Restart();
+    //        //    while (true)
+    //        //    {
+    //        //        int offHandWeaponTypeAfterSwap = 0;
+    //        //        bool didGetValue = WillBot.gameController.Player.GetComponentFromMemory<Stats>().StatDictionary.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponTypeAfterSwap);
+    //        //        // bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponTypeAfterSwap);
+    //        //        if (didGetValue == false)
+    //        //        {
+    //        //            Console.WriteLine("unable to get value");
+    //        //        }
+    //        //        //  var itemAfterSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+    //        //        if (didGetValue && offHandWeaponTypeAfterSwap == offHandWeaponTypeBeforeSwap)
+    //        //        {
+    //        //            //Console.WriteLine("Got different meta data weapon swap back");
+    //        //            Mouse.blockInput(false);
+    //        //            return RunStatus.Failure;
+    //        //        }
+    //        //        if (elapsed.ElapsedMilliseconds > 20)
+    //        //        {
+    //        //            Console.WriteLine("timed out in waiting for weapon swap back");
+    //        //            break;
+    //        //        }
+    //        //        Thread.Sleep(4);
+    //        //    }
+    //        //}
+    //        InputWrapper.KeyPress(Keys.X);
+    //        Mouse.blockInput(false);
+    //        return RunStatus.Failure;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Console.WriteLine(ex.ToString());
+    //        Mouse.blockInput(false);
+    //        return RunStatus.Failure;
+    //    }
+    //}));
+    //    }
         public static Composite CreateUseWarcryToGenerateRageComposite(BuffDebuffAbility ability)
         {
             return new Decorator(delegate (object context)
@@ -478,8 +621,12 @@ namespace Willplug.BotBehavior
                 int currentRage = 0;
                 bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
                 bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
+                canUse = true;
                 bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
-                if (currentRage < 25 && canUse == true && hasSoulGainPrevention == false)
+
+                int offHandWeaponType = 0;
+                WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponType);
+                if (currentRage < 25 && canUse == true && hasSoulGainPrevention == false && offHandWeaponType != 13)
                 {
                     ability.previousTryToUseTime = DateTime.Now;
                     return true;
@@ -491,57 +638,59 @@ namespace Willplug.BotBehavior
     {
         try
         {
-            // If 
+            var leftMouseButtonPressedBeforeAbilityUsage = Input.GetKeyState(Keys.LButton);
             Mouse.blockInput(true);
             Mouse.RightMouseUp();
-            var itemBeforeSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+            Input.KeyUp(Keys.E);
 
+
+            //var itemBeforeSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
+            //int offHandWeaponTypeBeforeSwap = 0;
+            //WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponTypeBeforeSwap);
 
             InputWrapper.KeyPress(Keys.X);
-            Stopwatch elapsed = new Stopwatch();
-            elapsed.Restart();
-            while (true)
-            {
-                var actorSkills = WillBot.gameController.Player.GetComponent<Actor>().ActorSkills;
-                string skillToCheckFor = "IntimidatingCry";
-                var foundSomething = actorSkills.Where((x) => x.Name == skillToCheckFor);
-
-                var itemAfterSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
-
-                if (itemAfterSwap?.Metadata != null && itemAfterSwap.Metadata != itemBeforeSwap.Metadata)
-                {
-                    break;
-                }
-                if (elapsed.ElapsedMilliseconds > 500)
-                {
-                    return RunStatus.Failure;
-                }
-                Thread.Sleep(1);
-            }
-            Thread.Sleep(70);
+            Thread.Sleep(120);
             InputWrapper.KeyPress(Keys.A);
-            Thread.Sleep(70);           
-            while (true)
-            {
-                InputWrapper.KeyPress(Keys.X);
-
-                while (true)
-                {
-                    var itemAfterSwap = WillBot.gameController.IngameState.ServerData.PlayerInventories[2].Inventory.Items.First();
-                    if (itemAfterSwap?.Metadata != null && itemAfterSwap.Metadata == itemBeforeSwap.Metadata)
-                    {
-                        Console.WriteLine("Got different meta data weapon swap back");
-                        return RunStatus.Failure;
-                    }
-                    if (elapsed.ElapsedMilliseconds > 50)
-                    {
-                        Console.WriteLine("timed out in waiting for weapon swap back");
-                        break;
-                    }
-                }
-            }
 
             Mouse.blockInput(false);
+            if (leftMouseButtonPressedBeforeAbilityUsage)
+            {
+                Mouse.LeftMouseDown();
+            }
+            return RunStatus.Failure;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            Mouse.blockInput(false);
+            return RunStatus.Failure;
+        }
+    }));
+        }
+        public static Composite CreateUseWarcryToGenerateRageCompositeWithoutWeaponSwap(BuffDebuffAbility ability)
+        {
+            return new Decorator(delegate (object context)
+            {
+                int currentRage = 0;
+                bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
+                bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
+                canUse = true;
+                bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
+                int offHandWeaponType = 0;
+                WillBot.gameController.Player.Stats.TryGetValue(GameStat.OffHandWeaponType, out offHandWeaponType);
+                if (currentRage < 12 && canUse == true && hasSoulGainPrevention == false)// && offHandWeaponType != 13)
+                {
+                    ability.previousTryToUseTime = DateTime.Now;
+                    return true;
+                }
+                return false;
+            },
+
+    new Action(delegate (object context)
+    {
+        try
+        {
+            InputWrapper.KeyPress(Keys.A);
             return RunStatus.Failure;
         }
         catch (Exception ex)
@@ -553,6 +702,37 @@ namespace Willplug.BotBehavior
     }));
         }
 
+        public static Composite CreatePFRageComposite(BuffDebuffAbility ability)
+        {
+            return new Decorator(delegate (object context)
+            {
+                int currentRage = 0;
+                bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
+                bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
+                bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
+                if (currentRage < 12 && hasSoulGainPrevention == false && canUse)// && offHandWeaponType != 13)
+                {
+                    ability.previousTryToUseTime = DateTime.Now;
+                    return true;
+                }
+                return false;
+            },
+
+    new Action(delegate (object context)
+    {
+        try
+        {
+            InputWrapper.KeyPress(Keys.D1);
+            return RunStatus.Failure;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            Mouse.blockInput(false);
+            return RunStatus.Failure;
+        }
+    }));
+        }
 
         public static Composite ActivateAura(BuffNameDelegate buffNameDelegate, BuffHotkeyPrefix buffHotkeyPrefix, BuffHotkeySuffix buffHotkeySuffix)
         {
@@ -575,6 +755,9 @@ namespace Willplug.BotBehavior
                 }
             }, ComboHotkey(buffHotkeyPrefix, buffHotkeySuffix));
         }
+
+
+
         public static Composite ComboHotkey(BuffHotkeyPrefix buffHotkeyPrefix, BuffHotkeySuffix buffHotkeySuffix)
         {
             return new Action(delegate (object context)
@@ -670,7 +853,7 @@ namespace Willplug.BotBehavior
                                 //previousBerserkUseTime = DateTime.Now;
                                 return RunStatus.Success;
                             }),
-                            new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.W))
+                            new UseHotkeyAction(WillBot.KeyboardHelper, x => Keys.R))
                     )
                 );
         }
