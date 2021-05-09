@@ -53,6 +53,15 @@ namespace ExileCore.Shared.Nodes
             return new HotkeyNode(value);
         }
 
+        public bool PressedDown()
+        {
+            if (Input.IsKeyDown(value))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool PressedOnce()
         {
             if (Input.IsKeyDown(value))

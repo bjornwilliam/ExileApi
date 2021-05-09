@@ -44,6 +44,19 @@ namespace Willplug
             Thread.Sleep(1);
             Input.KeyUp(key);
         }
-
+        public static void KeyDown(Keys key)
+        {
+            if (Input.IsKeyDown(key) == false)
+            {
+                Input.KeyDown(key);
+            }
+        }
+        public static void KeyUp(Keys key)
+        {
+            if (Input.IsKeyDown(key) == true)
+            {
+                Input.KeyUp(key);
+            }
+        }
     }
 }

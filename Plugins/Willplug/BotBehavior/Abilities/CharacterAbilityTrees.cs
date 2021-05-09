@@ -99,8 +99,8 @@ namespace Willplug.BotBehavior
                 return WillBot.Plugin.TreeHelper.CanTickMap();
             },
               new PrioritySelector(
-                  CharAbilities.CreatePFRageComposite(generateRageAbility),
-                  CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                CharAbilities.CreatePFRageComposite(generateRageAbility),
+                 CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
                   // CharAbilities.ActivateBuffIfNotPresent(bloodRageAbility)
                //CharAbilities.CreateBerserkComposite()
                  // CharAbilities.CreateUseWarcryToGenerateRageCompositeWithoutWeaponSwap(generateRageAbility)
@@ -149,8 +149,8 @@ namespace Willplug.BotBehavior
                  //CharAbilities.CreateUseEnduringCryComposite()
                  //
 
-                 CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility),
-                 CharAbilities.ActivateBuffIfNotPresent(bloodRageAbility)
+                 CharAbilities.CreateUseGuardSkillComposite(steelSkinAbility)
+                 //CharAbilities.ActivateBuffIfNotPresent(bloodRageAbility)
                 //CharAbilities.CreateUseCurseComposite(enfeebleCurseAbility),
                 //CharAbilities.CreateUseVortexComposite(),
                 //CharAbilities.CreateBerserkComposite()

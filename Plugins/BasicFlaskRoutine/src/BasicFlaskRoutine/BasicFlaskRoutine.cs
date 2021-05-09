@@ -289,14 +289,23 @@ namespace TreeRoutine.Routine.BasicFlaskRoutine
                     {
                         Console.WriteLine("Failed while getting component stats in checking for entity killable");
                     }
-                    if (monsterStats != null)
+                    try
                     {
-                        int cannotBeDamagedNumber = -1;
-                        monsterStats.StatDictionary.TryGetValue(GameStat.CannotBeDamaged, out cannotBeDamagedNumber);
-                        if (cannotBeDamagedNumber == 1)
+                        // Stats.ParseStats can throw an exception. Need to handle this here
+                        if (monsterStats != null)
                         {
-                            isDamageable = false;
+                            int cannotBeDamagedNumber = -1;
+                            monsterStats.StatDictionary.TryGetValue(GameStat.CannotBeDamaged, out cannotBeDamagedNumber);
+                            if (cannotBeDamagedNumber == 1)
+                            {
+                                isDamageable = false;
+                            }
                         }
+                    }
+
+                    catch (Exception ex)
+                    {
+
                     }
                     if (isDamageable == false)
                     {

@@ -710,7 +710,7 @@ new Action(delegate (object context)
                 bool canUse = DateTime.Now.Subtract(ability.previousTryToUseTime).TotalMilliseconds > ability.minimumIntervalBetweenUsagesMs;
                 bool didGetValue = WillBot.gameController.Player.Stats.TryGetValue(GameStat.CurrentRage, out currentRage);
                 bool hasSoulGainPrevention = Me.playerHasBuffs(new List<string>() { soulGainPreventionBuff });
-                if (currentRage < 12 && hasSoulGainPrevention == false && canUse)// && offHandWeaponType != 13)
+                if (currentRage < 24 && hasSoulGainPrevention == false && canUse)// && offHandWeaponType != 13)
                 {
                     ability.previousTryToUseTime = DateTime.Now;
                     return true;

@@ -24,6 +24,7 @@ namespace Willplug
             MovementAbilityKey = Keys.E;
             UseStashieKey = Keys.F6;
             CloseAllPanelsKey = Keys.L;
+            VaalAttackKey = Keys.RButton;
 
             RighteousFirePrefixKey = null; // Keys.LControlKey;
             RighteousFireSuffixKey = Keys.End;
@@ -112,6 +113,7 @@ namespace Willplug
 
 
         public int CurrencyStashTabIndex = 0;
+        public HotkeyNode VaalAttackKey { get; set; }
 
         public HotkeyNode RighteousFirePrefixKey { get; set; }
         public HotkeyNode RighteousFireSuffixKey { get; set; }

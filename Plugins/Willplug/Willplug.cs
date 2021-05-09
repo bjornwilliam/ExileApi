@@ -99,6 +99,9 @@ namespace Willplug
             WillBot.basePlugin = this;
             WillBot.KeyboardHelper = new TreeRoutine.DefaultBehaviors.Helpers.KeyboardHelper(GameController);
 
+            //Input.RegisterKey(Keys.RButton);
+            Input.RegisterKey(Keys.A);
+            Input.RegisterKey(Settings.VaalAttackKey);
             Input.RegisterKey(Settings.TestKey1);
             Input.RegisterKey(Settings.TestKey2);
             Input.RegisterKey(Settings.TryLootNearbykey);
@@ -164,7 +167,7 @@ namespace Willplug
         {
             return new Decorator(delegate
             {
-                if (WillBot.Plugin.TreeHelper.CanTickMap() && CommonBehavior.DoLooting(ignoreStrongBox:true))
+                if (WillBot.Plugin.TreeHelper.CanTickMap() && CommonBehavior.DoLooting(ignoreStrongBox: true))
                 {
                     return true;
                 }
@@ -449,6 +452,7 @@ namespace Willplug
             Graphics.DrawLine(screentCenterCache, new Vector2(screentCenterCache.X + 4, screentCenterCache.Y + 4), 7, Color.Red);
         }
 
+        public DateTime lastActivatedFlaskTime = DateTime.Now;
         public override Job Tick()
         {
             //ingameStateIngameUi = GameController.Game.IngameState.IngameUi;
@@ -456,6 +460,45 @@ namespace Willplug
             screentCenterCache = screenCenter;
             k = camera.Width < 1024f ? 1120f : 1024f;
             scale = k / camera.Height * camera.Width * 3f / 4f / mapWindow.LargeMapZoom;
+
+            string soulCatcher = "unique_flask_no_recovery_and_soul_gain";
+            //string soulCatcher = "unique_flask_soul_catcher";
+            //
+            if (WillBot.Plugin.TreeHelper.CanTickMap() == true)
+            {
+                if (Settings.VaalAttackKey.PressedDown())
+                {
+                    var playerBuffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<ExileCore.PoEMemory.Components.Buffs>();
+
+                    var soulCatcherBuffs = playerBuffs?.BuffsList?.Where(x => x.Name?.Contains(soulCatcher) ?? false)?.ToList();
+                    var soulCatcherBuff = soulCatcherBuffs.FirstOrDefault();
+
+                    if (soulCatcherBuff != null && soulCatcherBuff.Timer > 0.2)
+                    {
+                        InputWrapper.KeyDown(Keys.A);
+                    }
+                    // Activate soul catcher if not active -> then activate attack
+                    //if (WillBot.Me.playerHasBuffs(new List<string>() { }) == true)
+                    //{
+
+                    //    InputWrapper.KeyDown(Keys.A);
+                    //}
+                    else
+                    {
+                        if (DateTime.Now.Subtract(lastActivatedFlaskTime).TotalMilliseconds > 100)
+                        {
+                            InputWrapper.KeyPress(Keys.D2);
+                            lastActivatedFlaskTime = DateTime.Now;
+                        }
+                    }
+                    // Only press the actual attack key if soul catcher is active
+                    //InputWrapper.KeyPress(Keys.W);
+                }
+                else
+                {
+                    InputWrapper.KeyUp(Keys.A);
+                }
+            }
 
             if (Settings.TestKey1.PressedOnce())
             {
